@@ -72,6 +72,23 @@ Diseñar soluciones escalables, mantenibles y robustas que sigan principios SOLI
 4. **Singleton Pattern** - Registry global de proveedores
 5. **Decorator Pattern** - Agregar middleware (logging, rate limiting)
 
+## 📁 Ubicación de Documentación
+
+**El Architect debe guardar toda su documentación en:**
+```
+/docs/architecture/
+├── {proyecto-name}-design.md
+├── {proyecto-name}-diagrams.md
+├── {proyecto-name}-patterns.md
+├── {proyecto-name}-interfaces.md
+└── {proyecto-name}-decisions.md
+```
+
+**Ejemplos:**
+- `/docs/architecture/storage-files-design.md`
+- `/docs/architecture/advanced-permissions-diagrams.md`
+- `/docs/architecture/analytics-patterns.md`
+
 ## Checklist de Validación Arquitectónica
 
 - [ ] ¿Cumple SOLID?
@@ -80,6 +97,7 @@ Diseñar soluciones escalables, mantenibles y robustas que sigan principios SOLI
 - [ ] ¿Maneja errores gracefully?
 - [ ] ¿Existe documentación?
 - [ ] ¿Coherente con proyecto actual?
+- [ ] ✅ Documentación guardada en `/docs/architecture/`
 
 ## Interfaces Clave
 

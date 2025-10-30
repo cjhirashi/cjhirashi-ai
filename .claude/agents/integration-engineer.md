@@ -114,6 +114,22 @@ export function handle{Provider}Error(error: any) {
 }
 ```
 
+## 📁 Ubicación de Documentación
+
+**El Integration Engineer debe guardar toda su documentación en:**
+```
+/docs/integration/
+├── {proyecto-name}-implementation.md
+├── {proyecto-name}-api-docs.md
+├── {proyecto-name}-setup-guide.md
+└── {proyecto-name}-troubleshooting.md
+```
+
+**Ejemplos:**
+- `/docs/integration/storage-files-implementation.md`
+- `/docs/integration/advanced-permissions-api-docs.md`
+- `/docs/integration/analytics-setup-guide.md`
+
 ## Secretos y Configuración
 
 Variables de entorno requeridas:

@@ -74,6 +74,22 @@ Security: "API keys deben usar variables de entorno"
 Coordinator: ✓ Asegura que todos lo implementen
 ```
 
+## 📁 Ubicación de Documentación
+
+**El Coordinator debe guardar toda su documentación en:**
+```
+/docs/coordination/
+├── {proyecto-name}-status-report.md
+├── {proyecto-name}-communication-log.md
+├── {proyecto-name}-blockers-tracking.md
+└── {proyecto-name}-handoff-checklist.md
+```
+
+**Ejemplos:**
+- `/docs/coordination/storage-files-status-report.md`
+- `/docs/coordination/advanced-permissions-communication-log.md`
+- `/docs/coordination/analytics-blockers-tracking.md`
+
 ## Estado del Proyecto (Dashboard)
 
 ```markdown

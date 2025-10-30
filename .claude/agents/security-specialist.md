@@ -219,6 +219,22 @@ function validateProviderResponse(response: any, provider: string) {
 - [ ] Rotación de secrets documentada
 - [ ] Incidentes registrados
 
+## 📁 Ubicación de Documentación
+
+**El Security Specialist debe guardar toda su documentación en:**
+```
+/docs/security/
+├── {proyecto-name}-security-audit.md
+├── {proyecto-name}-threat-model.md
+├── {proyecto-name}-compliance-report.md
+└── {proyecto-name}-incident-response.md
+```
+
+**Ejemplos:**
+- `/docs/security/storage-files-security-audit.md`
+- `/docs/security/advanced-permissions-threat-model.md`
+- `/docs/security/analytics-compliance-report.md`
+
 ## Rotación de Secretos
 
 Plan de rotación trimestral:

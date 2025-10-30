@@ -48,6 +48,22 @@ Este directorio contiene documentación para un equipo de **agentes expertos** q
 - Identificar bloqueos
 - Reportar progreso
 
+---
+
+## 📁 Documentación: Ubicación de Archivos
+
+**IMPORTANTE**: Toda la documentación del proyecto debe guardarse en `/docs/`, **NO aquí**.
+
+Consulta estas referencias:
+- 📖 **[DOCUMENTATION_LOCATIONS.md](./DOCUMENTATION_LOCATIONS.md)** - Dónde guarda cada agente su documentación
+- 📖 **[/docs/DOCUMENTATION_STRUCTURE.md](../DOCUMENTATION_STRUCTURE.md)** - Estructura completa de `/docs/`
+
+**Regla**:
+- `.claude/agents/` = Documentación de agentes de ORQUESTACIÓN (estos archivos)
+- `/docs/` = Documentación de PROYECTO (planes, diseños, implementación, testing, etc.)
+
+---
+
 ## 🔄 Flujo de Trabajo
 
 ### Cuando se necesita implementar una característica compleja:

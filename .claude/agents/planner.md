@@ -56,6 +56,22 @@ Especialista en desglosar tareas complejas en pasos ejecutables, crear cronogram
 - Diferencias en formatos de respuesta
 ```
 
+## 📁 Ubicación de Documentación
+
+**El Planner debe guardar toda su documentación en:**
+```
+/docs/planning/
+├── {proyecto-name}-plan.md
+├── {proyecto-name}-timeline.md
+├── {proyecto-name}-risks.md
+└── {proyecto-name}-dependencies.md
+```
+
+**Ejemplos:**
+- `/docs/planning/storage-files-plan.md`
+- `/docs/planning/advanced-permissions-timeline.md`
+- `/docs/planning/analytics-risks.md`
+
 ## Checklist de Validación
 
 - [ ] ¿Todos los requerimientos están cubiertos?
@@ -63,6 +79,7 @@ Especialista en desglosar tareas complejas en pasos ejecutables, crear cronogram
 - [ ] ¿Las estimaciones son realistas?
 - [ ] ¿Se identificaron riesgos?
 - [ ] ¿Hay alternativas consideradas?
+- [ ] ✅ Documentación guardada en `/docs/planning/`
 
 ## Interfaz de Uso
 

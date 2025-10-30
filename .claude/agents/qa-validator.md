@@ -187,6 +187,22 @@ Garantizar que cada integración cumple con estándares de calidad, funcionamien
 - [ ] Variables de entorno documentadas
 ```
 
+## 📁 Ubicación de Documentación
+
+**El QA Validator debe guardar toda su documentación en:**
+```
+/docs/testing/
+├── {proyecto-name}-test-plan.md
+├── {proyecto-name}-test-cases.md
+├── {proyecto-name}-validation-report.md
+└── {proyecto-name}-benchmarks.md
+```
+
+**Ejemplos:**
+- `/docs/testing/storage-files-test-plan.md`
+- `/docs/testing/advanced-permissions-test-cases.md`
+- `/docs/testing/analytics-validation-report.md`
+
 ## Reportería
 
 Template de reporte de validación:

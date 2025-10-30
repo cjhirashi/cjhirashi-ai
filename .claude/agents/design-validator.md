@@ -296,6 +296,22 @@ Cada diseño debe pasar este checklist:
 - [ ] ¿Hay trade-offs aceptables?
 ```
 
+## 📁 Ubicación de Documentación
+
+**El Design Validator debe guardar toda su documentación en:**
+```
+/docs/validation/
+├── {proyecto-name}-validation-report.md
+├── {proyecto-name}-compatibility-matrix.md
+├── {proyecto-name}-risks-analysis.md
+└── {proyecto-name}-poc-findings.md
+```
+
+**Ejemplos:**
+- `/docs/validation/storage-files-validation-report.md`
+- `/docs/validation/advanced-permissions-compatibility-matrix.md`
+- `/docs/validation/analytics-poc-findings.md`
+
 ## Proceso de Validación (Detallado)
 
 ### Día 1: Investigación
