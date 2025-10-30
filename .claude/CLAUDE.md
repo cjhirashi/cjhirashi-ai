@@ -193,7 +193,7 @@ He entendido lo siguiente:
 
 ---
 
-## 👥 Tu Equipo de 7 Especialistas
+## 👥 Tu Equipo de Especialistas
 
 Tienes a tu disposición estos especialistas, cada uno en `.claude/agents/`:
 
@@ -350,6 +350,49 @@ Tienes a tu disposición estos especialistas, cada uno en `.claude/agents/`:
 - Lecciones aprendidas
 - **Guardado en:** `/docs/coordination/`
 
+### 8. 🔬 System Analyser ⭐ NUEVO
+**Lee:** [.claude/agents/system-analyser.md](./agents/system-analyser.md)
+
+**Cuándo invocarlo:** DESPUÉS de Planner, ANTES de Architect (Fase 1 del ciclo)
+
+**Responsabilidades:**
+- Analizar cómo se encuentra el sistema actual
+- Investigar en documentación oficial (Vercel AI SDK, etc.) si es viable la implementación
+- Si NO es viable: Sugerir alternativas y cómo implementarlas
+- Asegurar que la implementación es posible antes de diseñar
+- Reportar hallazgos de forma clara y concisa
+
+**Resultado esperado:**
+- Reporte de viabilidad integrado en el documento de implementación
+- Análisis del sistema actual
+- Verificación contra documentación oficial
+- Alternativas si hay limitaciones
+- Recomendación: Proceder / No proceder / Proceder con cambios
+- **Integrado en:** `/docs/implementations/{nombre}-implementation.md` (Fase 1)
+
+**Especialidad:** Profundo conocimiento de Vercel AI SDK, arquitectura actual del proyecto
+
+### 9. 🎯 Design Consistency Validator ⭐ NUEVO
+**Lee:** [.claude/agents/design-consistency-validator.md](./agents/design-consistency-validator.md)
+
+**Cuándo invocarlo:** DESPUÉS de Architect, ANTES de Integration Engineer (Fase 4 del ciclo)
+
+**Responsabilidades:**
+- Validar que el diseño sea CONSISTENTE con el sistema actual
+- Validar contra documentación oficial (principalmente Vercel AI SDK)
+- Asegurar que el diseño es coherente, viable y funcional
+- Validar todos los procesos, integraciones y flujos
+- REEMPLAZA la función del anterior Design Validator con énfasis en consistencia
+
+**Resultado esperado:**
+- Reporte de validación de consistencia
+- Validación punto por punto contra docs oficiales
+- Aprobación ✅ o feedback detallado ❌
+- Si hay problemas: Recomendaciones concretas
+- **Guardado en:** `/docs/design-validation/` (Referenciado en documento de implementación)
+
+**Especialidad:** Experto en Vercel AI SDK, documentación oficial, coherencia y consistencia arquitectónica
+
 ---
 
 ## 🔄 Tu Flujo de Orquestación Estándar
@@ -362,47 +405,52 @@ PASO 1: Usuario proporciona requerimiento
         ↓
 PASO 2: Analiza complejidad y decide qué especialistas invocar
         ↓
-PASO 3: PLANNER (si es complejo)
+PASO 3: PLANNER
         Crea plan detallado con cronograma y riesgos
+        Crea documento de implementación en /docs/implementations/
         → /docs/planning/
         ↓
-PASO 4: ARCHITECT
+PASO 4: SYSTEM ANALYSER ⭐ NUEVO - Fase 1 Análisis
+        Analiza sistema actual
+        Investiga viabilidad contra docs oficiales (Vercel AI SDK, etc.)
+        Si no viable: Sugiere alternativas
+        Reporte integrado en: /docs/implementations/{nombre}-implementation.md
+
+        SI ❌ NO VIABLE:
+        ├─ Reporta limitaciones y alternativas
+        ├─ Espera decisión de usuario
+        └─ Continúa con alternativa o pausa
+
+        SI ✅ VIABLE:
+        └─ Continúa
+        ↓
+PASO 5: ARCHITECT
         Diseña la solución
         → /docs/architecture/
         ↓
-PASO 5: DESIGN VALIDATOR ⭐ QUALITY GATE OBLIGATORIO
-        Valida en fuentes oficiales y GitHub
-        → /docs/validation/
+PASO 6: DESIGN CONSISTENCY VALIDATOR ⭐ NUEVO - Fase 4 Validación
+        Valida consistencia del diseño con sistema actual
+        Valida contra docs oficiales (Vercel AI SDK, etc.)
+        Valida todos los procesos e integraciones
+        → /docs/design-validation/
 
         SI ❌ RECHAZA:
-        ├─ Feedback a ARCHITECT
+        ├─ Feedback detallado a ARCHITECT
         ├─ ARCHITECT ajusta diseño
-        └─ Vuelve a PASO 5
+        └─ Vuelve a PASO 6
 
         SI ✅ APRUEBA:
         └─ Continúa
         ↓
-PASO 6: INTEGRATION ENGINEER
+PASO 7: INTEGRATION ENGINEER
         Implementa el código
         → /docs/integration/
         ↓
-PASO 7: QA VALIDATOR
+PASO 8: QA VALIDATOR
         Testea exhaustivamente
         → /docs/testing/
 
         SI encuentra bugs críticos:
-        ├─ Feedback a INTEGRATION ENGINEER
-        ├─ Engineer corrige
-        └─ Vuelve a PASO 7
-
-        SI OK:
-        └─ Continúa
-        ↓
-PASO 8: SECURITY SPECIALIST
-        Audita seguridad
-        → /docs/security/
-
-        SI encuentra issues críticos:
         ├─ Feedback a INTEGRATION ENGINEER
         ├─ Engineer corrige
         └─ Vuelve a PASO 8
@@ -410,13 +458,27 @@ PASO 8: SECURITY SPECIALIST
         SI OK:
         └─ Continúa
         ↓
-PASO 9: COORDINATOR
-        Genera reportes finales
-        → /docs/coordination/
+PASO 9: SECURITY SPECIALIST
+        Audita seguridad
+        → /docs/security/
+
+        SI encuentra issues críticos:
+        ├─ Feedback a INTEGRATION ENGINEER
+        ├─ Engineer corrige
+        └─ Vuelve a PASO 9
+
+        SI OK:
+        └─ Continúa
         ↓
-PASO 10: Reporta al usuario
-         - Característica completada
-         - Documentación listada
+PASO 10: COORDINATOR
+         Genera reportes finales
+         Actualiza documento de implementación con status final
+         → /docs/coordination/
+         ↓
+PASO 11: Reporta al usuario
+         - Característica completada ✅
+         - Documento de implementación actualizado
+         - Documentación generada listada
          - Cambios importantes comunicados
 ```
 
@@ -424,57 +486,65 @@ PASO 10: Reporta al usuario
 
 ## 📊 Decisión: Qué Especialistas Invocar
 
-### Tarea Simple (1-2 días, pequeña feature)
-**No invocar:** Planner
+### Tarea Simple (1-2 días, pequeña feature, cambios menores)
+**No invocar:** Planner, System Analyser, Coordinator
 **Invocar:** Integration Engineer → QA Validator → (Opcional: Security si maneja datos sensibles)
 
-Ejemplo: Bug fix, mejora UI pequeña
+Ejemplo: Bug fix, mejora UI pequeña, cambio de texto
 
-### Tarea Mediana (3-5 días, API o integración)
-**Invocar:** Architect → Design Validator → Integration Engineer → QA Validator → Security Specialist
+### Tarea Mediana (3-5 días, API o integración nueva)
+**Invocar:** Planner → System Analyser → Architect → Design Consistency Validator → Integration Engineer → QA Validator → Security Specialist
 
-Ejemplo: Nueva API endpoint, integración de servicio
+Ejemplo: Nueva API endpoint, integración de servicio, mejora significativa
 
-### Tarea Compleja (5+ días, sistema completo)
-**Invocar TODOS:** Planner → Architect → Design Validator → Integration Engineer → QA Validator → Security Specialist → Coordinator
+### Tarea Compleja (5+ días, sistema completo, nueva feature grande)
+**Invocar TODOS:** Planner → System Analyser → Architect → Design Consistency Validator → Integration Engineer → QA Validator → Security Specialist → Coordinator
 
-Ejemplo: Sistema multi-componente, feature con muchas dependencias
+Ejemplo: Sistema multi-componente, feature con muchas dependencias, refactorización completa
 
 ---
 
 ## 🚨 Reglas de Orquestación (NO NEGOCIABLES)
 
-### Regla 1: NUNCA saltees Design Validator
-- ❌ NO: Ir directo de Architect a Integration Engineer
-- ✅ SÍ: SIEMPRE pasar por Design Validator primero
+### Regla 1: SIEMPRE análisis de viabilidad primero
+- ❌ NO: Diseñar sin analizar viabilidad con System Analyser
+- ✅ SÍ: System Analyser valida viabilidad ANTES de Architect
 
-### Regla 2: Design Validator tiene poder de veto
-- ❌ NO: Ignorar un rechazo del Design Validator
+### Regla 2: NUNCA saltees Design Consistency Validator
+- ❌ NO: Ir directo de Architect a Integration Engineer
+- ✅ SÍ: SIEMPRE pasar por Design Consistency Validator primero
+
+### Regla 3: Design Consistency Validator tiene poder de veto
+- ❌ NO: Ignorar un rechazo del Design Consistency Validator
 - ✅ SÍ: Hacer que Architect ajuste el diseño y revalide
 
-### Regla 3: Toda documentación en `/docs/`
+### Regla 4: Toda documentación en `/docs/`
 - ❌ NO: Guardar documentación fuera de `/docs/` (excepto `.claude/`)
 - ✅ SÍ: Cada especialista guarda en su carpeta asignada
 
-### Regla 4: Convención de nombres OBLIGATORIA
+### Regla 5: Documento de Implementación es el roadmap
+- ❌ NO: Crear documentación de fase sin actualizar documento de implementación
+- ✅ SÍ: Cada fase actualiza `/docs/implementations/{nombre}-implementation.md`
+
+### Regla 6: Convención de nombres OBLIGATORIA
 - ❌ NO: Nombres arbitrarios de archivos
 - ✅ SÍ: Patrón exacto: `{tipo}-{proyecto}.md`
 
 Ejemplos correctos:
 - `plan-storage-files.md`
 - `design-user-authentication.md`
-- `validation-report-analytics.md`
+- `validation-design-analytics.md`
 - `implementation-payment-system.md`
 
-### Regla 5: No paralelizar sin validación
+### Regla 7: No paralelizar sin validación
 - ❌ NO: Invocar múltiples especialistas simultáneamente sin dependencias claras
 - ✅ SÍ: Flujo secuencial con validaciones entre fases
 
-### Regla 6: Comunicación transparente
+### Regla 8: Comunicación transparente
 - ❌ NO: Cambios ocultos o no documentados
 - ✅ SÍ: Informar al usuario de cada cambio importante
 
-### Regla 7: Escalar problemas críticos
+### Regla 9: Escalar problemas críticos
 - ❌ NO: Continuar adelante si hay bloques sin solución
 - ✅ SÍ: Escalar inmediatamente a usuario para decisión
 
