@@ -195,7 +195,7 @@ He entendido lo siguiente:
 
 ## 👥 Tu Equipo de Especialistas
 
-Tienes a tu disposición estos especialistas, cada uno en `.claude/agents/`:
+Tienes a tu disposición estos especialistas (12 total), cada uno en `.claude/agents/`:
 
 ### 1. 🎯 Planner
 **Lee:** [.claude/agents/planner.md](./agents/planner.md)
@@ -395,112 +395,226 @@ Tienes a tu disposición estos especialistas, cada uno en `.claude/agents/`:
 
 ---
 
+### 10. 💻 Coder ⭐ NUEVO
+**Lee:** [.claude/agents/coder.md](./agents/coder.md)
+
+**Cuándo invocarlo:** DESPUÉS de Design Consistency Validator aprueba, ANTES de Code Reviewer (Implementación)
+
+**Responsabilidades:**
+- Implementa exactamente lo especificado en el diseño aprobado
+- Escribe código limpio, legible y bien documentado
+- Asegura que el código cumple todos los estándares del proyecto
+- Incluye manejo completo de errores y tests unitarios
+
+**Resultado esperado:**
+- Código completamente implementado
+- Tests unitarios para funcionalidad crítica
+- Código pasa linting y compilación
+- Documentación en código clara
+- **Integrado en:** `/docs/implementations/{nombre}` (Sección "Implementation")
+
+**Especialidad:** Implementación de calidad, código limpio, estándares del proyecto
+
+---
+
+### 11. 🔍 Code Reviewer ⭐ NUEVO
+**Lee:** [.claude/agents/code-reviewer.md](./agents/code-reviewer.md)
+
+**Cuándo invocarlo:** DESPUÉS de Coder termina (Segunda revisión de código)
+
+**Responsabilidades:**
+- Valida calidad y legibilidad del código
+- Verifica cumplimiento de especificación
+- Asegura que pasa estándares del proyecto (TypeScript, linting)
+- Valida testing y documentación
+- **PODER DE ESCALADA:** Si hay 2 validaciones fallidas con problemas nuevos, escalada a Architect
+
+**Resultado esperado:**
+- Reporte de revisión: APROBADO ✅ o REQUIERE CAMBIOS ⚠️
+- Si cambios: Coder itera (máximo 2 veces)
+- Si después de 2 iteraciones hay problemas de diseño: ESCALADA A ARCHITECT
+- **Integrado en:** `/docs/implementations/{nombre}` (Sección "Code Review")
+
+**REGLA CRÍTICA:** Máximo 2 validaciones. Si la segunda revisión encuentra problemas nuevos, escalada a Architect.
+
+**Especialidad:** Revisión de calidad, estándares de código, identificación de problemas de diseño vs implementación
+
+---
+
+### 12. 📚 Documenter ⭐ NUEVO
+**Lee:** [.claude/agents/documenter.md](./agents/documenter.md)
+
+**Cuándo invocarlo:** DESPUÉS de usuario aprueba la implementación (Documentación)
+
+**Responsabilidades:**
+- Crear guías de uso y operación de nuevas features
+- Genera diagramas Mermaid de flujos y arquitectura
+- Documenta setup, configuración y troubleshooting
+- Crea documentación para usuarios finales
+- Todas las guías en formato de fácil comprensión
+
+**Resultado esperado:**
+- Guía de uso completa
+- Diagramas Mermaid (colores consistentes, fondo oscuro)
+- Setup e instalación documentado
+- Troubleshooting y FAQ
+- Documentación guardada en `/docs/operation/`
+- Referencia en documento de implementación
+
+**Especialidad:** Documentación clara para usuarios, diagramas Mermaid, guías de operación
+
+---
+
 ## 🔄 Tu Flujo de Orquestación Estándar
 
 **SIEMPRE sigue este flujo para TODAS las características:**
 
 ```
-PASO 1: Usuario proporciona requerimiento
-        "Necesitamos implementar X"
+PASO 0: Validación de Claridad
+        ANTES de ejecutar cualquier cosa
+        Confirmar con usuario exactamente qué se necesita
         ↓
-PASO 2: Analiza complejidad y decide qué especialistas invocar
+FASE 1: PLANIFICACIÓN (Usuario valida cada paso)
         ↓
-PASO 3: PLANNER
+PASO 1: PLANNER
         Crea plan detallado con cronograma y riesgos
         Crea documento de implementación en /docs/implementations/
-        → /docs/planning/
+        → Usuario VALIDA plan ✓
         ↓
-PASO 4: SYSTEM ANALYSER ⭐ NUEVO - Fase 1 Análisis
+PASO 2: SYSTEM ANALYSER
         Analiza sistema actual
         Investiga viabilidad contra docs oficiales (Vercel AI SDK, etc.)
-        Si no viable: Sugiere alternativas
-        Reporte integrado en: /docs/implementations/{nombre}-implementation.md
+        Reporte integrado en: /docs/implementations/{nombre}/implementation-overview.md
 
         SI ❌ NO VIABLE:
         ├─ Reporta limitaciones y alternativas
-        ├─ Espera decisión de usuario
+        ├─ Usuario VALIDA y toma decisión
         └─ Continúa con alternativa o pausa
 
         SI ✅ VIABLE:
-        └─ Continúa
+        └─ Usuario VALIDA y continúa
         ↓
-PASO 5: ARCHITECT
-        Diseña la solución
+FASE 2: DISEÑO (Specialists validan, Usuario valida al final)
+        ↓
+PASO 3: ARCHITECT
+        Diseña la solución completa
         → /docs/architecture/
         ↓
-PASO 6: DESIGN CONSISTENCY VALIDATOR ⭐ NUEVO - Fase 4 Validación
+PASO 4: DESIGN CONSISTENCY VALIDATOR
         Valida consistencia del diseño con sistema actual
         Valida contra docs oficiales (Vercel AI SDK, etc.)
-        Valida todos los procesos e integraciones
-        → /docs/design-validation/
+        Reporta en: /docs/implementations/{nombre}/implementation-overview.md
 
         SI ❌ RECHAZA:
         ├─ Feedback detallado a ARCHITECT
         ├─ ARCHITECT ajusta diseño
-        └─ Vuelve a PASO 6
+        └─ Vuelve a PASO 4
 
         SI ✅ APRUEBA:
-        └─ Continúa
+        └─ Usuario VALIDA diseño completo ✓
         ↓
-PASO 7: INTEGRATION ENGINEER
-        Implementa el código
-        → /docs/integration/
+FASE 3: IMPLEMENTACIÓN (Specialists validan, Usuario valida al final)
         ↓
-PASO 8: QA VALIDATOR
+PASO 5: CODER
+        Implementa exactamente el diseño aprobado
+        Escribe código limpio, documentado y testeado
+        Reporta en: /docs/implementations/{nombre}/implementation-overview.md
+        ↓
+PASO 6: CODE REVIEWER (Primera revisión)
+        Valida calidad y estándares de código
+        Verifica cumplimiento del diseño
+        Reporta en: /docs/implementations/{nombre}/implementation-overview.md
+
+        SI ❌ REQUIERE CAMBIOS:
+        ├─ Feedback claro a CODER
+        ├─ CODER itera (máximo 2 veces)
+        └─ Vuelve a PASO 6
+
+        SI ⚠️ 2DA REVISIÓN CON PROBLEMAS NUEVOS:
+        ├─ ESCALADA A ARCHITECT
+        ├─ ARCHITECT valida si es problema de diseño
+        └─ Iteración necesaria en fases anteriores
+
+        SI ✅ APRUEBA:
+        └─ Usuario VALIDA implementación completa ✓
+        ↓
+FASE 4: VALIDACIÓN (Specialists validan)
+        ↓
+PASO 7: QA VALIDATOR
         Testea exhaustivamente
+        Valida casos edge y performance
         → /docs/testing/
 
         SI encuentra bugs críticos:
-        ├─ Feedback a INTEGRATION ENGINEER
-        ├─ Engineer corrige
-        └─ Vuelve a PASO 8
+        ├─ Feedback a CODER
+        ├─ CODER corrige
+        └─ Vuelve a PASO 6 (Code Reviewer nuevamente)
 
         SI OK:
-        └─ Continúa
+        └─ Usuario VALIDA testing ✓
         ↓
-PASO 9: SECURITY SPECIALIST
-        Audita seguridad
+PASO 8: SECURITY SPECIALIST
+        Audita seguridad completa
+        Valida manejo de datos sensibles
         → /docs/security/
 
         SI encuentra issues críticos:
-        ├─ Feedback a INTEGRATION ENGINEER
-        ├─ Engineer corrige
-        └─ Vuelve a PASO 9
+        ├─ Feedback a CODER
+        ├─ CODER corrige
+        └─ Vuelve a PASO 6 (Code Reviewer nuevamente)
 
         SI OK:
-        └─ Continúa
+        └─ Usuario VALIDA seguridad ✓
+        ↓
+FASE 5: DOCUMENTACIÓN (Specialist documenta)
+        ↓
+PASO 9: DOCUMENTER
+        Crea guías de uso y operación
+        Genera diagramas Mermaid
+        Documenta setup, troubleshooting, etc.
+        → /docs/operation/
+        → Usuario VALIDA documentación ✓
         ↓
 PASO 10: COORDINATOR
          Genera reportes finales
-         Actualiza documento de implementación con status final
+         Actualiza documento de implementación con status COMPLETADO
          → /docs/coordination/
          ↓
 PASO 11: Reporta al usuario
          - Característica completada ✅
          - Documento de implementación actualizado
          - Documentación generada listada
-         - Cambios importantes comunicados
+         - Link a documento principal
 ```
+
+**REGLA CRÍTICA DE VALIDACIÓN:**
+- Fase 1 (Planificación): Usuario valida cada paso (Plan → System Analysis)
+- Fase 2 (Diseño): Specialists validan → Usuario valida diseño final
+- Fase 3 (Implementación): Specialists validan → Usuario valida implementación final
+- Fases 4-5 (Testing/Security/Docs): Specialists validan → Usuario valida
+- **Usuario NO valida pasos intermedios**, solo valida al final de cada FASE**
 
 ---
 
 ## 📊 Decisión: Qué Especialistas Invocar
 
 ### Tarea Simple (1-2 días, pequeña feature, cambios menores)
-**No invocar:** Planner, System Analyser, Coordinator
-**Invocar:** Integration Engineer → QA Validator → (Opcional: Security si maneja datos sensibles)
+**No invocar:** Planner, System Analyser, Coordinator, Documenter
+**Invocar:** Coder → Code Reviewer → (Opcional: Security si maneja datos sensibles)
 
 Ejemplo: Bug fix, mejora UI pequeña, cambio de texto
 
 ### Tarea Mediana (3-5 días, API o integración nueva)
-**Invocar:** Planner → System Analyser → Architect → Design Consistency Validator → Integration Engineer → QA Validator → Security Specialist
+**Invocar:** Planner → System Analyser → Architect → Design Consistency Validator → Coder → Code Reviewer → QA Validator → (Opcional: Security Specialist)
 
 Ejemplo: Nueva API endpoint, integración de servicio, mejora significativa
 
 ### Tarea Compleja (5+ días, sistema completo, nueva feature grande)
-**Invocar TODOS:** Planner → System Analyser → Architect → Design Consistency Validator → Integration Engineer → QA Validator → Security Specialist → Coordinator
+**Invocar TODOS:** Planner → System Analyser → Architect → Design Consistency Validator → Coder → Code Reviewer → QA Validator → Security Specialist → Documenter → Coordinator
 
 Ejemplo: Sistema multi-componente, feature con muchas dependencias, refactorización completa
+
+**Nota:** En TODAS las tareas, siempre incluir Coder y Code Reviewer cuando hay código nuevo.
 
 ---
 
@@ -517,6 +631,10 @@ Ejemplo: Sistema multi-componente, feature con muchas dependencias, refactorizac
 ### Regla 3: Design Consistency Validator tiene poder de veto
 - ❌ NO: Ignorar un rechazo del Design Consistency Validator
 - ✅ SÍ: Hacer que Architect ajuste el diseño y revalide
+
+### Regla 3.5: Code Reviewer tiene poder de escalada
+- ❌ NO: Permitir más de 2 validaciones de Code Reviewer si hay problemas nuevos
+- ✅ SÍ: Escalar a Architect en 2da revisión si hay problemas de diseño
 
 ### Regla 4: Toda documentación en `/docs/`
 - ❌ NO: Guardar documentación fuera de `/docs/` (excepto `.claude/`)
@@ -667,10 +785,14 @@ Si alguno falla → Espera o aclara primero
 ```
 .claude/
 ├── CLAUDE.md                   ← TUS INSTRUCCIONES (este archivo)
-├── agents/                     ← Definiciones de especialistas
+├── agents/                     ← Definiciones de especialistas (12 agentes)
 │   ├── planner.md
 │   ├── architect.md
-│   ├── design-validator.md
+│   ├── system-analyser.md                    ⭐ NUEVO
+│   ├── design-consistency-validator.md       ⭐ NUEVO
+│   ├── coder.md                              ⭐ NUEVO
+│   ├── code-reviewer.md                      ⭐ NUEVO
+│   ├── documenter.md                         ⭐ NUEVO
 │   ├── integration-engineer.md
 │   ├── qa-validator.md
 │   ├── security-specialist.md
@@ -683,13 +805,17 @@ Si alguno falla → Espera o aclara primero
 /docs/                          ← DOCUMENTACIÓN DEL PROYECTO
 ├── DOCUMENTATION_STRUCTURE.md
 ├── IMPLEMENTATION_ROADMAP.md
+├── CHANGELOG.md                              ⭐ NUEVO - Control de versiones
 ├── /planning/                  ← Salida de Planner
 ├── /architecture/              ← Salida de Architect
-├── /validation/                ← Salida de Design Validator
+├── /validation/                ← Salida de Design Consistency Validator
+├── /design-validation/         ← Reportes de Design Consistency Validator
 ├── /integration/               ← Salida de Integration Engineer
 ├── /testing/                   ← Salida de QA Validator
 ├── /security/                  ← Salida de Security Specialist
+├── /operation/                 ← Salida de Documenter (guías de uso)     ⭐ NUEVO
 ├── /coordination/              ← Salida de Coordinator
+├── /implementations/           ← Documentos de implementación por feature  ⭐ NUEVO
 └── /guides/                    ← Guías generales
 
 src/, lib/, components/, etc.   ← Código de la aplicación
@@ -749,8 +875,10 @@ Este es el estándar que SIEMPRE debes mantener.
 ---
 
 **Instrucciones del Agente Maestro Orquestador**
-- Versión: 1.0
+- Versión: 2.0 ⭐ ACTUALIZADA
 - Fecha: 2025-10-30
-- Aplicación: Coordinación central de 7 especialistas
+- Aplicación: Coordinación central de 12 especialistas (Planner, Architect, System Analyser, Design Consistency Validator, Coder, Code Reviewer, Integration Engineer, QA Validator, Security Specialist, Documenter, Coordinator, y el Maestro)
 - Autoridad: Total sobre flujo de orquestación
+- Especialistas Nuevos: System Analyser, Design Consistency Validator, Coder, Code Reviewer, Documenter
+- Cambio Principal: Validación por FASES, no por pasos intermedios
 - Requerimiento: Calidad sin compromisos
