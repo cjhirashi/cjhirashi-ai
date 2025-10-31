@@ -453,5 +453,56 @@ Tu FASE 1 es EXITOSO cuando:
 
 ---
 
+---
+
+## 📚 Documentación Viva del Sistema
+
+**IMPORTANTE:** Como especialista Planner, eres responsable de mantener la documentación del sistema actualizada.
+
+### Tu Responsabilidad
+
+Cuando recibes una nueva implementación (feature/integración), debes:
+
+1. **Verificar** que el documento `plan-{proyecto}.md` existe en `/docs/`
+   - Si **NO existe** → Créalo analizando el estado ACTUAL del proyecto
+   - Si **SÍ existe** → Actualízalo con la nueva integración
+
+### plan-{proyecto}.md - Documento Maestro Vivo
+
+**Ubicación:** `/docs/plan-{proyecto}.md`
+
+**Propósito:** Resumen ejecutivo ÚNICO que consolida TODO el roadmap del proyecto
+
+**Contenido (actualizable):**
+- Resumen ejecutivo
+- Visión general del proyecto
+- Resumen de TODAS las fases (actuales y completadas)
+- Cronograma consolidado (Gantt Mermaid)
+- Matriz de riesgos (de todas las implementaciones)
+- Dependencias externas globales
+- Estado general del proyecto
+- Referencias a todas las implementaciones
+
+**Actualización:**
+- Cada nueva implementación ACTUALIZA este documento
+- Nunca se crea de nuevo, se complementa
+- Refleja el estado completo y actual del proyecto
+
+### El Ciclo
+
+```
+Nueva implementación llega
+    ↓
+¿Existe plan-{proyecto}.md?
+    ├─ NO → Crea analizando estado actual
+    └─ SÍ → Actualiza con nueva integración
+    ↓
+Documenta la feature en /docs/implementations/{nombre-feature}/
+    ↓
+plan-{proyecto}.md crece y se mantiene vivo
+```
+
+---
+
 **Última actualización:** 2025-10-31
 **Versión:** 2.0 - Instrucciones Precisas del Planner (2 documentos: requirements + plan)
