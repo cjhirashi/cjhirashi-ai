@@ -1,6 +1,6 @@
 # 📚 Documentación de Orquestación - Índice Central
 
-Esta carpeta contiene toda la documentación sobre el sistema de orquestación multi-especialista de `cjhirashi-ai`.
+Esta carpeta contiene toda la documentación sobre el sistema de orquestación multi-especialista.
 
 **Objetivo:** Proporcionar un punto central de referencia para entender cómo funciona el flujo de orquestación, qué templates usar, y cómo consultar guías específicas.
 
