@@ -1,13 +1,17 @@
-# 🔍 Design Validation Flow
+# 🔍 Design Consistency Validation Flow
+
+**ACTUALIZACIÓN:** Este documento describe el flujo de validación del especialista "Design Consistency Validator" (anteriormente "Design Validator").
+
+---
 
 ## El Problema
 
 ```
-❌ SIN Design Validator:
+❌ SIN Design Consistency Validator:
 
 ARCHITECT diseña
       ↓
-INTEGRATION ENGINEER implementa (5 días)
+CODER implementa (5 días)
       ↓
 ¡ERROR! La API cambió de versión
 ¡ERROR! Las librerías no son compatibles
@@ -21,24 +25,24 @@ TOTAL: 8-10 días perdidos
 ## La Solución
 
 ```
-✅ CON Design Validator:
+✅ CON Design Consistency Validator:
 
 ARCHITECT diseña
       ↓
-DESIGN VALIDATOR valida
-  ✓ Docs oficiales: OK
-  ✓ GitHub proyectos: OK
-  ✓ Compatibilidad: OK
-  ✓ PoC: OK
+DESIGN CONSISTENCY VALIDATOR valida contra:
+  ✓ Documentación oficial (Vercel AI SDK, etc.)
+  ✓ Proyectos GitHub similares
+  ✓ Consistencia con codebase actual
+  ✓ PoC/Validación local
       ↓
 🚨 SI HAY PROBLEMAS:
   - Feedback claro al Architect
   - Ajustes al diseño (1-2 horas)
   - Revalidación rápida
       ↓
-✅ DISEÑO APROBADO
+✅ DISEÑO APROBADO Y VALIDADO
       ↓
-INTEGRATION ENGINEER implementa (4 días)
+CODER implementa (4 días)
       ↓
 ¡NO HAY SORPRESAS!
       ↓
@@ -53,7 +57,7 @@ TOTAL: 4 días (sin retrasos)
 | Con validación | 4-6 días | Errores detectados antes |
 | **ROI** | **40-50% más rápido** | ✅ |
 
-## Casos de Error Detectados por Design Validator
+## Casos de Error Detectados por Design Consistency Validator
 
 ### ❌ Error 1: Incompatibilidad de Versiones
 ```
@@ -61,7 +65,7 @@ ARCHITECT propone:
 - @ai-sdk/anthropic v0.0.20
 - @ai-sdk/core v1.0.0
 
-DESIGN VALIDATOR encuentra:
+DESIGN CONSISTENCY VALIDATOR encuentra:
 ⚠️ @ai-sdk/anthropic v0.0.20 requiere @ai-sdk/core v2.0.0+
 
 SOLUCIÓN: Actualizar versión de Anthropic SDK
@@ -72,7 +76,7 @@ SOLUCIÓN: Actualizar versión de Anthropic SDK
 ARCHITECT propone:
 - Usar DeepSeek API con parámetro X
 
-DESIGN VALIDATOR busca en GitHub:
+DESIGN CONSISTENCY VALIDATOR busca en GitHub:
 ⚠️ Parámetro X fue deprecado en Oct 2024
 ✓ Nueva forma: usar parámetro Y
 
@@ -84,7 +88,7 @@ SOLUCIÓN: Actualizar implementación propuesta
 ARCHITECT propone:
 - Factory Pattern con provider switching dinámica
 
-DESIGN VALIDATOR testea PoC:
+DESIGN CONSISTENCY VALIDATOR testea PoC:
 ⚠️ Race condition en provider initialization
 
 SOLUCIÓN: Agregar mutex/lock a registry
@@ -95,14 +99,14 @@ SOLUCIÓN: Agregar mutex/lock a registry
 ARCHITECT usa:
 - Vertex AI Auth Method X (en docs viejos)
 
-DESIGN VALIDATOR valida:
+DESIGN CONSISTENCY VALIDATOR valida:
 ⚠️ Método X fue deprecado
 ✓ Usar Método Y (actual)
 
 SOLUCIÓN: Actualizar estrategia de auth
 ```
 
-## Checklist: Lo que Design Validator Valida
+## Checklist: Lo que Design Consistency Validator Valida
 
 ```markdown
 ## Para cada proveedor:
@@ -129,7 +133,7 @@ SOLUCIÓN: Actualizar estrategia de auth
 - [ ] ¿Logging funciona correctamente?
 ```
 
-## Ejemplos: Design Validator en Acción
+## Ejemplos: Design Consistency Validator en Acción
 
 ### ✅ Aprobación: Arquitectura Multi-Proveedor
 
@@ -141,16 +145,16 @@ ARCHITECT propone:
 ├─ Adapter para normalizar respuestas
 └─ Token counting por proveedor
 
-DESIGN VALIDATOR valida:
+DESIGN CONSISTENCY VALIDATOR valida:
 ├─ ✓ vercel/ai usa exactamente este pattern
 ├─ ✓ continuedev/continue lo usa en 10+ proveedores
-├─ ✓ Patrones ya documentados en Go of Four
+├─ ✓ Patrones ya documentados en Design Patterns
 ├─ ✓ Proyectos en GitHub lo usan en producción
-├─ ✓ Performance es excellent
+├─ ✓ Performance es aceptable
 └─ ✓ Error handling documentado
 
 RESULTADO: ✅ APROBADO
-Status: "Implementación sin riesgos"
+Status: "Implementación sin riesgos identificados"
 ```
 
 ### ⚠️ Cambios Necesarios: Selección de Modelo
@@ -161,7 +165,7 @@ ARCHITECT propone:
 ├─ Cargar modelos disponibles dinámicamente
 ├─ Guardar en BD
 
-DESIGN VALIDATOR encuentra:
+DESIGN CONSISTENCY VALIDATOR encuentra:
 ⚠️ Algunos proveedores no exponen lista de modelos
   - Anthropic: Modelos fijos
   - OpenAI: API de modelos disponible
@@ -173,14 +177,14 @@ RECOMENDACIÓN:
 - No depender de APIs de listado
 
 ARCHITECT ajusta diseño
-DESIGN VALIDATOR revalida
+DESIGN CONSISTENCY VALIDATOR revalida
 ✅ APROBADO (versión 2)
 ```
 
-## Documentación que Genera Design Validator
+## Documentación que Genera Design Consistency Validator
 
 ```markdown
-# Design Validation Report
+# Design Consistency Validation Report
 
 ## Componente: Multi-Proveedor LLM
 
@@ -194,7 +198,7 @@ DESIGN VALIDATOR revalida
 ### Compatibilidad Verificada:
 - Todas las versiones ✓
 - Sin breaking changes ✓
-- Performance OK ✓
+- Performance aceptable ✓
 
 ### Patrones Validados:
 - Factory Pattern: ✓ (usado en vercel/ai)
@@ -214,13 +218,13 @@ DESIGN VALIDATOR revalida
 APROBADO para implementación. Diseño es viable,
 compatible y respaldado por proyectos reales.
 
-Validador: Design Validator
-Fecha: 2025-10-30
+Validador: Design Consistency Validator
+Fecha: 2025-10-31
 ```
 
 ## Comunicación Entre Especialistas
 
-### Design Validator → Architect
+### Design Consistency Validator → Architect
 
 **Escenario 1: Aprobación**
 ```
@@ -228,6 +232,7 @@ Fecha: 2025-10-30
 - 5 proveedores en docs oficiales ✓
 - 8 proyectos GitHub similares ✓
 - PoC local creado ✓
+- Consistencia con codebase actual ✓
 
 Aprobado para implementación. Proceder."
 ```
@@ -243,18 +248,18 @@ Aprobado para implementación. Proceder."
    Solución: Usar parámetro Y
 
 3. Vertex AI requiere Service Account setup
-   Solución: Documentar en SETUP.md
+   Solución: Documentar en setup guide
 
 Ajusta estos 3 puntos y revalido en 1 hora."
 ```
 
-### Design Validator → Integration Engineer
+### Design Consistency Validator → Coder
 
 ```
-"Antes de empezar a codificar, revisé el diseño.
+"He validado el diseño del Architect.
+Punto crítico durante implementación:
 
-Punto crítico:
-- Ensure token counting use vercel/ai's built-in
+- Usar vercel/ai's token counting built-in
 - No reimplementar (incompatible)
 
 Link con PoC: github.com/...
@@ -262,22 +267,22 @@ Link con PoC: github.com/...
 Proceder con confianza."
 ```
 
-## Impacto del Design Validator
+## Impacto del Design Consistency Validator
 
 ### Antes (Sin Validación)
 - 40% de tiempo en refactorización
-- Frustraciones por surprises
+- Frustraciones por errores
 - Bugs en producción
 - Deuda técnica
 
 ### Después (Con Validación)
-- Implementación limpia
-- Cero surprises
+- Implementación limpia first-time
+- Cero sorpresas durante código
 - ✅ First-time right
 - Confianza en calidad
 
 ---
 
-**Conclusión**: Design Validator es el especialista que **ahorra 40-50% del tiempo** previniendo errores documentados que otros no vieron.
+**Conclusión**: Design Consistency Validator es el especialista que **ahorra 40-50% del tiempo** previniendo errores que otros no ven.
 
-Es un **Quality Gate crítico** entre diseño e implementación.
+Es un **Quality Gate crítico** entre diseño e implementación. Valida contra documentación oficial, proyectos reales en GitHub, y codebase actual.

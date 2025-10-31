@@ -1,137 +1,185 @@
-# 📍 Ubicación de Documentación por Agente
+# 📍 Ubicación de Documentación - Referencia Actualizada
 
-**Referencia rápida: Dónde guardar tu documentación**
-
-## 🎯 Planner
-**Carpeta:** `/docs/planning/`
-```
-plan-{proyecto}.md                    ← Plan general
-timeline-{proyecto}.md                ← Cronograma y fases
-risks-{proyecto}.md                   ← Análisis de riesgos
-dependencies-{proyecto}.md            ← Dependencias entre tareas
-```
-
-## 🏗️ Architect
-**Carpeta:** `/docs/architecture/`
-```
-design-{proyecto}.md                  ← Diseño general
-diagrams-{proyecto}.md                ← Diagramas y visuales
-patterns-{proyecto}.md                ← Patrones de diseño usados
-interfaces-{proyecto}.md              ← Definición de interfaces
-decisions-{proyecto}.md               ← Decisiones arquitectónicas
-```
-
-## 🔍 Design Validator
-**Carpeta:** `/docs/validation/`
-```
-validation-report-{proyecto}.md       ← Reporte de validación
-compatibility-matrix-{proyecto}.md    ← Matriz de compatibilidad
-risks-analysis-{proyecto}.md          ← Análisis de riesgos técnicos
-poc-findings-{proyecto}.md            ← Hallazgos del PoC
-```
-
-## 🔧 Integration Engineer
-**Carpeta:** `/docs/integration/`
-```
-implementation-{proyecto}.md          ← Detalles de implementación
-api-docs-{proyecto}.md                ← Documentación de APIs
-setup-guide-{proyecto}.md             ← Guía de setup e instalación
-troubleshooting-{proyecto}.md         ← Troubleshooting común
-```
-
-## ✅ QA Validator
-**Carpeta:** `/docs/testing/`
-```
-test-plan-{proyecto}.md               ← Plan de testing
-test-cases-{proyecto}.md              ← Casos de prueba detallados
-validation-report-{proyecto}.md       ← Reporte de validación
-benchmarks-{proyecto}.md              ← Benchmarks y performance
-```
-
-## 🔐 Security Specialist
-**Carpeta:** `/docs/security/`
-```
-security-audit-{proyecto}.md          ← Auditoría de seguridad
-threat-model-{proyecto}.md            ← Modelo de amenazas
-compliance-report-{proyecto}.md       ← Reporte de compliance
-incident-response-{proyecto}.md       ← Plan de respuesta a incidentes
-```
-
-## 🎭 Coordinator
-**Carpeta:** `/docs/coordination/`
-```
-status-report-{proyecto}.md           ← Reporte de estado
-communication-log-{proyecto}.md       ← Log de comunicaciones
-blockers-tracking-{proyecto}.md       ← Tracking de bloqueos
-handoff-checklist-{proyecto}.md       ← Checklist de handoffs
-```
+**ACTUALIZACIÓN IMPORTANTE:** Esta documentación ha sido actualizada para reflejar la nueva estructura de FASE 1 con requirements.md y plan.md como documentos centrales.
 
 ---
 
-## 📋 Ejemplo Completo: "Storage de Archivos"
+## 📊 FASE 1: Planificación
 
+**Ubicación:** `/docs/implementations/{nombre-feature}/`
+
+### Documentos Generados
 ```
-/docs/planning/
-└── plan-storage-files.md
+/docs/implementations/{nombre-feature}/
+├── README.md                ← Punto de entrada (resumen ejecutivo)
+├── requirements.md          ← Análisis de requisitos + viabilidad (Planner + System Analyser)
+└── plan.md                  ← Plan maestro consolidado (Planner)
+```
 
+**Especialistas:** Planner, System Analyser
+**Responsables de Guardar:** Planner
+
+---
+
+## 🏗️ FASE 2: Diseño
+
+**Ubicación:** `/docs/architecture/` (o `/docs/implementations/{nombre-feature}/` si prefieres centralizar)
+
+### Documentos Generados
+```
 /docs/architecture/
-├── design-storage-files.md
-├── diagrams-storage-files.md
-└── decisions-storage-files.md
+├── design-{proyecto}.md              ← Diseño arquitectónico
+├── diagrams-{proyecto}.md            ← Diagramas y visuales Mermaid
+├── patterns-{proyecto}.md            ← Patrones de diseño usados
+└── validation-design-{proyecto}.md   ← Reporte de validación de consistencia
+```
 
-/docs/validation/
-└── validation-report-storage-files.md
+**Especialistas:** Architect, Design Consistency Validator
+**Responsables de Guardar:** Architect (validación integrada del Design Consistency Validator)
 
-/docs/integration/
-├── implementation-storage-files.md
-├── api-docs-storage-files.md
-└── setup-guide-storage-files.md
+---
 
+## 💻 FASE 3: Implementación
+
+**Ubicación:** `/docs/implementations/{nombre-feature}/` o `/docs/integration/`
+
+### Documentos Generados
+```
+/docs/implementations/{nombre-feature}/
+├── implementation-overview.md  ← Overview de implementación
+├── api-docs-{proyecto}.md      ← Documentación de APIs
+└── code-review-{proyecto}.md   ← Reporte de revisión de código
+```
+
+**Especialistas:** Coder, Code Reviewer
+**Responsables de Guardar:** Coder (actualizado con feedback de Code Reviewer)
+
+---
+
+## ✅ FASE 4: Validación
+
+**Ubicación:** `/docs/testing/` y `/docs/security/`
+
+### Documentos Generados
+```
 /docs/testing/
-├── test-plan-storage-files.md
-└── test-cases-storage-files.md
+├── test-plan-{proyecto}.md           ← Plan de testing
+├── test-cases-{proyecto}.md          ← Casos de prueba
+└── validation-report-{proyecto}.md   ← Reporte de validación
 
 /docs/security/
-├── security-audit-storage-files.md
-└── threat-model-storage-files.md
+├── security-audit-{proyecto}.md      ← Auditoría de seguridad
+├── threat-model-{proyecto}.md        ← Modelo de amenazas
+└── incident-response-{proyecto}.md   ← Plan de respuesta a incidentes
+```
 
-/docs/coordination/
-└── status-report-storage-files.md
+**Especialistas:** QA Validator, Security Specialist
+**Responsables de Guardar:** Cada uno en su carpeta
+
+---
+
+## 📚 FASE 5: Documentación
+
+**Ubicación:** `/docs/operation/`
+
+### Documentos Generados
+```
+/docs/operation/
+├── user-guide-{proyecto}.md          ← Guía de uso
+├── setup-guide-{proyecto}.md         ← Guía de setup
+├── troubleshooting-{proyecto}.md     ← Troubleshooting y FAQ
+└── architecture-diagrams-{proyecto}.md ← Diagramas Mermaid de operación
+```
+
+**Especialistas:** Documenter
+**Responsables de Guardar:** Documenter
+
+---
+
+## 📋 Estructura General Simplificada
+
+```
+/docs/
+├── /implementations/          ← Documentos centrales por feature (FASE 1)
+│   └── {nombre-feature}/
+│       ├── README.md
+│       ├── requirements.md    ← CENTRAL: qué y por qué
+│       └── plan.md            ← CENTRAL: cómo y cuándo
+│
+├── /architecture/             ← Diseño (FASE 2)
+├── /integration/              ← Código (FASE 3) [opcional, puede ir en implementations]
+├── /testing/                  ← Tests (FASE 4)
+├── /security/                 ← Auditoría (FASE 4)
+└── /operation/                ← Guías (FASE 5)
 ```
 
 ---
 
-## ✅ Checklist Rápido
+## 🎯 Convención de Nombres - ACTUALIZADA
 
-Antes de crear documentación, pregúntate:
+**Patrón general:**
+```
+{tipo}-{proyecto}.md
+```
 
-- [ ] ¿Quién soy? (Planner, Architect, etc.)
-- [ ] ¿Cuál es mi carpeta? (Ver tabla arriba)
-- [ ] ¿Cuál es el tipo de documento? (plan, design, report, etc.)
-- [ ] ¿Cuál es el nombre del proyecto? (storage-files, user-auth, etc.)
-- [ ] ¿El nombre sigue: `{tipo}-{proyecto}.md`?
-- [ ] ¿La documentación está en `/docs/`?
+**Ejemplos correctos:**
+```
+design-payment-system.md
+implementation-auth-flow.md
+validation-user-dashboard.md
+test-plan-notification-engine.md
+security-audit-api-endpoints.md
+user-guide-admin-panel.md
+```
 
-Si respondiste SÍ a todo → ✅ Listo para guardar
+**Ejemplos INCORRECTOS:**
+```
+PaymentSystem.md          ← No uses CamelCase
+design.md                 ← No olvides el proyecto
+my-design-v2.md          ← No agregues versiones al nombre
+```
 
 ---
 
-## 🚫 Lo que NO Debes Hacer
+## ✅ Checklist Antes de Guardar
 
-❌ No guardes documentación en `.claude/agents/` (es para agentes de orquestación)
-❌ No guardes documentación en raíz (proyecto)
-❌ No crees carpetas nuevas (usa las establecidas)
-❌ No uses otros nombres de archivos (sigue la convención)
+- [ ] ¿Sé qué FASE es? (1, 2, 3, 4 o 5)
+- [ ] ¿Cuál es la carpeta correcta para mi fase?
+- [ ] ¿El nombre sigue `{tipo}-{proyecto}.md`?
+- [ ] ¿Está documentado qué es cada sección?
+- [ ] ¿Hay referencias cruzadas a otros documentos?
+- [ ] ¿Actualicé plan.md si es necesario?
+
+---
+
+## 🚫 Lo que NUNCA Debes Hacer
+
+❌ Guardar documentación en `.claude/` (eso es para orquestación)
+❌ Crear carpetas nuevas sin autorización del Maestro Orquestador
+❌ Usar nombres de archivo arbitrarios
+❌ Guardar documentación desorganizada en raíz
+❌ Actualizar plan.md sin coordinar
 
 ## ✅ Lo que SÍ Debes Hacer
 
-✅ Guarda todo en `/docs/`
-✅ Dentro de tu carpeta asignada
-✅ Con nombre en formato: `{tipo}-{proyecto}.md`
-✅ Sigue la estructura exacta
-✅ Actualiza referencias cruzadas
+✅ Guardar en `/docs/` en la carpeta de tu fase
+✅ Seguir convención de nombres `{tipo}-{proyecto}.md`
+✅ Documentar claramente qué es cada sección
+✅ Actualizar referencias cruzadas
+✅ Mantener plan.md actualizado con progreso
 
 ---
 
-**Referencia creada**: 2025-10-30
-**Todos los agentes deben consultar esto antes de crear documentación**
+## 📌 Nota Sobre FASE 1
+
+**FASE 1 es especial** porque genera documentos centrales:
+- `requirements.md` - qué se hace y por qué
+- `plan.md` - cómo y cuándo se hace
+
+Estos dos documentos son el **punto de referencia principal** para todo el proyecto. Todas las otras fases se basan en ellos.
+
+---
+
+**Última actualización:** 2025-10-31
+**Versión:** 2.0 - Estructura actualizada para nueva FASE 1 (requirements + plan)
+**Responsabilidad:** Todos los especialistas deben consultar antes de guardar
