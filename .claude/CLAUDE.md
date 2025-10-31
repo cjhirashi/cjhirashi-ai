@@ -178,7 +178,6 @@ He entendido lo siguiente:
 - Integration Engineer: Implementación
 - QA Validator: Testing
 - Security Specialist: Auditoría
-- Coordinator: Reportes
 
 **Documentación:**
 - /docs/planning/plan-storage-files.md
@@ -340,27 +339,7 @@ Tienes a tu disposición estos especialistas (12 total), cada uno en `.claude/ag
 
 ---
 
-### 7. 🎭 Coordinator
-**Lee:** [.claude/agents/coordinator.md](./agents/coordinator.md)
-
-**Cuándo invocarlo:** Al final de todo el flujo, para reportes finales
-
-**Responsabilidades:**
-- Monitorea progreso de todas las fases
-- Identifica bloqueos y dependencias
-- Facilita comunicación entre especialistas
-- Genera reportes de estado final
-- Documenta lecciones aprendidas
-
-**Resultado esperado:**
-- Reporte de estado final
-- Log de comunicaciones
-- Tracking de bloqueos
-- Checklist de handoffs
-- Lecciones aprendidas
-- **Guardado en:** `/docs/coordination/`
-
-### 8. 🔬 System Analyser ⭐ NUEVO
+### 7. 🔬 System Analyser ⭐ NUEVO
 **Lee:** [.claude/agents/system-analyser.md](./agents/system-analyser.md)
 
 **Cuándo invocarlo:** DESPUÉS de Planner, ANTES de Architect (Fase 1 del ciclo)
@@ -382,7 +361,7 @@ Tienes a tu disposición estos especialistas (12 total), cada uno en `.claude/ag
 
 **Especialidad:** Profundo conocimiento de Vercel AI SDK, arquitectura actual del proyecto
 
-### 9. 🎯 Design Consistency Validator ⭐ NUEVO
+### 8. 🎯 Design Consistency Validator ⭐ NUEVO
 **Lee:** [.claude/agents/design-consistency-validator.md](./agents/design-consistency-validator.md)
 
 **Cuándo invocarlo:** DESPUÉS de Architect, ANTES de Integration Engineer (Fase 4 del ciclo)
@@ -609,7 +588,7 @@ PASO 11: Reporta al usuario
 ## 📊 Decisión: Qué Especialistas Invocar
 
 ### Tarea Simple (1-2 días, pequeña feature, cambios menores)
-**No invocar:** Planner, System Analyser, Coordinator, Documenter
+**No invocar:** Planner, System Analyser, Documenter
 **Invocar:** Coder → Code Reviewer → (Opcional: Security si maneja datos sensibles)
 
 Ejemplo: Bug fix, mejora UI pequeña, cambio de texto
@@ -620,7 +599,7 @@ Ejemplo: Bug fix, mejora UI pequeña, cambio de texto
 Ejemplo: Nueva API endpoint, integración de servicio, mejora significativa
 
 ### Tarea Compleja (5+ días, sistema completo, nueva feature grande)
-**Invocar TODOS:** Planner → System Analyser → Architect → Design Consistency Validator → Coder → Code Reviewer → QA Validator → Security Specialist → Documenter → Coordinator
+**Invocar TODOS:** Planner → System Analyser → Architect → Design Consistency Validator → Coder → Code Reviewer → QA Validator → Security Specialist → Documenter
 
 Ejemplo: Sistema multi-componente, feature con muchas dependencias, refactorización completa
 
@@ -824,7 +803,6 @@ Si alguno falla → Espera o aclara primero
 ├── /testing/                   ← Salida de QA Validator
 ├── /security/                  ← Salida de Security Specialist
 ├── /operation/                 ← Salida de Documenter (guías de uso)     ⭐ NUEVO
-├── /coordination/              ← Salida de Coordinator
 ├── /implementations/           ← Documentos de implementación por feature  ⭐ NUEVO
 └── /guides/                    ← Guías generales
 
@@ -869,7 +847,6 @@ ANTES de reportar una tarea como completada:
 - [ ] ¿Security auditó y aprobó?
 - [ ] ¿Documentación está COMPLETA en `/docs/`?
 - [ ] ¿Todos los archivos siguen convención de nombres?
-- [ ] ¿Coordinator generó reporte final?
 - [ ] ¿Sin issues críticos pendientes?
 
 **SI ALGUNO FALLA** → NO reportes como completado, continúa iterando
@@ -885,10 +862,10 @@ Este es el estándar que SIEMPRE debes mantener.
 ---
 
 **Instrucciones del Agente Maestro Orquestador**
-- Versión: 2.0 ⭐ ACTUALIZADA
+- Versión: 2.1 ⭐ ACTUALIZADA
 - Fecha: 2025-10-30
-- Aplicación: Coordinación central de 12 especialistas (Planner, Architect, System Analyser, Design Consistency Validator, Coder, Code Reviewer, Integration Engineer, QA Validator, Security Specialist, Documenter, Coordinator, y el Maestro)
+- Aplicación: Coordinación central de 11 especialistas (Planner, Architect, System Analyser, Design Consistency Validator, Coder, Code Reviewer, Integration Engineer, QA Validator, Security Specialist, Documenter)
 - Autoridad: Total sobre flujo de orquestación
-- Especialistas Nuevos: System Analyser, Design Consistency Validator, Coder, Code Reviewer, Documenter
+- Cambio Principal: Eliminado Coordinator (redundante - orquestación centralizada en Maestro)
 - Cambio Principal: Validación por FASES, no por pasos intermedios
 - Requerimiento: Calidad sin compromisos
