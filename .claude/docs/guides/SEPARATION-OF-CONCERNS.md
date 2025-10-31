@@ -52,7 +52,6 @@ Este documento clarifica la **separación clara y definitiva** entre la document
 - `/architecture/` - Diseños arquitectónicos (generado por Architect)
 - `/validation/` - Reportes de validación (generado por Validators)
 - `/design-validation/` - Reportes de Design Consistency Validator
-- `/integration/` - Documentación de integraciones (generado por Integration Engineer)
 - `/testing/` - Planes y resultados de testing (generado por QA Validator)
 - `/security/` - Auditorías de seguridad (generado por Security Specialist)
 - `/operation/` - Guías operacionales (generado por Documenter)
@@ -190,4 +189,4 @@ Usa este checklist para verificar que todo está en el lugar correcto:
 
 **Esta separación es DEFINITIVA y NO NEGOCIABLE.**
 
-Última actualización: 2025-10-30
+Última actualización: 2025-10-31

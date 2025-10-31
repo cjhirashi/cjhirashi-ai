@@ -169,28 +169,52 @@ graph TD
 
 ## 📁 Ubicación de Documentación
 
-**El Documenter guarda documentación operacional permanente en:**
-
+**El Documenter actualiza la documentación de implementación en:**
 ```
-/docs/operation/
-├── {feature-name}-guide.md        ← Guía de uso
-├── {feature-name}-setup.md         ← Setup e instalación
-├── {feature-name}-troubleshooting.md ← Troubleshooting
-└── {feature-name}-architecture.md  ← Diagramas técnicos
-
-Ejemplos:
-/docs/operation/
-├── multi-provider-llm-guide.md
-├── multi-provider-llm-setup.md
-├── multi-provider-llm-troubleshooting.md
-└── multi-provider-llm-architecture.md
-```
-
-**También actualiza:**
-```
-/docs/implementations/{feature-name}/
+/docs/implementations/{nombre-feature}/
 └── implementation-overview.md  ← Sección "Documentation"
 ```
+
+El Documenter documenta su progreso en la sección "Documentation" del documento de implementación, indicando:
+- Guías de usuario creadas
+- Diagramas Mermaid generados
+- Setup e instalación documentados
+- Troubleshooting coverage
+- Referencias a documentación operacional
+
+## 📚 Documentación Viva del Sistema
+
+Cuando recibes una nueva implementación (feature/integración), debes:
+
+1. **Verificar** que el documento de implementación existe en `/docs/implementations/{nombre-feature}/`:
+   - `implementation-overview.md` - Progreso completo de todas las fases
+
+2. **Si NO existe:**
+   - **Analiza** la feature/integración completada
+   - **Crea** el documento reflejando el estado ACTUAL (antes de la documentación completa)
+
+3. **Si SÍ existe:**
+   - **Actualiza** la sección "Documentation" con tu trabajo
+   - **Documenta** guías de usuario creadas
+   - **Incluye** diagramas Mermaid generados
+   - **Registra** documentación de setup
+   - **Agrega** troubleshooting coverage
+   - **Incluye** referencias a `/docs/operation/`
+
+**Responsabilidad:** Mantener sección "Documentation" actualizada con cada documentación completada
+
+### Documentación Operacional Permanente
+
+Además, creas documentación operacional permanente en `/docs/operation/`:
+```
+/docs/operation/
+├── {nombre-feature}-guide.md          ← Guía de uso
+├── {nombre-feature}-setup.md           ← Setup e instalación
+├── {nombre-feature}-troubleshooting.md ← Troubleshooting
+└── {nombre-feature}-diagrams.md        ← Diagramas técnicos (Mermaid)
+```
+
+Esta documentación es permanente y es referenciada desde `/docs/implementations/`
 
 ## Checklist de Documentación
 

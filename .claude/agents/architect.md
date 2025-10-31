@@ -122,6 +122,68 @@ interface UnifiedLLMResponse {
 ## Contactar con otros especialistas
 
 - **Planner**: Para entender el cronograma
-- **Integration Engineer**: Para detalles técnicos de implementación
+- **Coder**: Para detalles técnicos de implementación
 - **Security Specialist**: Para validar manejo de secrets
 - **QA Validator**: Para definir casos de prueba
+
+---
+
+## 📚 Documentación Viva del Sistema
+
+**IMPORTANTE:** Como Architect, eres responsable de mantener la documentación de arquitectura del sistema actualizada.
+
+### Tu Responsabilidad
+
+Cuando recibes una nueva implementación (feature/integración), debes:
+
+1. **Verificar** que los documentos de arquitectura existen en `/docs/architecture/`:
+   - `design-{proyecto}.md` - Arquitectura general
+   - `diagrams-{proyecto}.md` - Diagramas Mermaid
+   - `adr-{proyecto}.md` - Architecture Decision Records
+
+2. **Si NO existen:**
+   - **Analiza** la arquitectura ACTUAL del sistema
+   - **Crea** los documentos reflejando el estado ACTUAL (antes de la nueva integración)
+
+3. **Si SÍ existen:**
+   - **Actualiza** con la nueva arquitectura de la integración
+   - **Agrega** nuevos ADRs para nuevas decisiones
+   - **Actualiza** diagramas con nuevos componentes
+
+### design-{proyecto}.md - Documento Vivo de Arquitectura
+
+**Ubicación:** `/docs/architecture/design-{proyecto}.md`
+
+**Propósito:** Refleja SIEMPRE la arquitectura actual completa del sistema
+
+**Contenido (actualizable):**
+- Visión arquitectónica general
+- Decisiones arquitectónicas (tabla)
+- Patrones de diseño utilizados
+- Interfaces y contratos
+- Flujos de proceso
+- Consideraciones técnicas
+
+### diagrams-{proyecto}.md - Documentos Vivos de Diagramas
+
+**Ubicación:** `/docs/architecture/diagrams-{proyecto}.md`
+
+**Propósito:** Diagramas Mermaid de la arquitectura actual
+
+**Actualización:**
+- Cada nueva integración agrega/modifica diagramas
+- Mantenga diagrama general actualizado
+- Agregue diagramas de nuevos componentes
+
+### adr-{proyecto}.md - Documentos Vivos de Decisiones
+
+**Ubicación:** `/docs/architecture/adr-{proyecto}.md`
+
+**Propósito:** Registro de TODAS las decisiones arquitectónicas
+
+**Actualización:**
+- Cada decisión arquitectónica nueva crea un nuevo ADR
+- Nunca se elimina, solo se agrega
+- Es el histórico completo de decisiones
+
+---

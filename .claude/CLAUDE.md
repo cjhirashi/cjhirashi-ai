@@ -272,31 +272,10 @@ Tienes a tu disposición estos especialistas (12 total), cada uno en `.claude/ag
 
 ---
 
-### 4. 🔧 Integration Engineer
-**Lee:** [.claude/agents/integration-engineer.md](./agents/integration-engineer.md)
-
-**Cuándo invocarlo:** Después de Design Validator aprueba
-
-**Responsabilidades:**
-- Escribe código funcional y testeable
-- Integra APIs externas y servicios
-- Implementa autenticación y manejo de errores
-- Crea documentación técnica de APIs
-- Documenta setup e instalación
-
-**Resultado esperado:**
-- Código implementado
-- API documentada
-- Setup guide completo
-- Troubleshooting documentation
-- **Guardado en:** `/docs/integration/`
-
----
-
-### 5. ✅ QA Validator
+### 4. ✅ QA Validator
 **Lee:** [.claude/agents/qa-validator.md](./agents/qa-validator.md)
 
-**Cuándo invocarlo:** Después que Integration Engineer termina
+**Cuándo invocarlo:** Después que Coder termina
 
 **Responsabilidades:**
 - Crea planes de testing exhaustivos
@@ -312,11 +291,11 @@ Tienes a tu disposición estos especialistas (12 total), cada uno en `.claude/ag
 - Benchmarks y métricas
 - **Guardado en:** `/docs/testing/`
 
-**Nota:** Si encuentra bugs críticos, los reporta a Integration Engineer para correcciones.
+**Nota:** Si encuentra bugs críticos, los reporta a Coder para correcciones.
 
 ---
 
-### 6. 🔐 Security Specialist
+### 5. 🔐 Security Specialist
 **Lee:** [.claude/agents/security-specialist.md](./agents/security-specialist.md)
 
 **Cuándo invocarlo:** Después de QA Validator
@@ -335,7 +314,7 @@ Tienes a tu disposición estos especialistas (12 total), cada uno en `.claude/ag
 - Plan de respuesta a incidentes
 - **Guardado en:** `/docs/security/`
 
-**Nota:** Si encuentra issues críticos, reporta a Integration Engineer para correcciones.
+**Nota:** Si encuentra issues críticos, reporta a Coder para correcciones.
 
 ---
 
@@ -774,15 +753,14 @@ Si alguno falla → Espera o aclara primero
 ```
 .claude/
 ├── CLAUDE.md                   ← TUS INSTRUCCIONES (este archivo)
-├── agents/                     ← Definiciones de especialistas (12 agentes)
+├── agents/                     ← Definiciones de especialistas (10 agentes)
 │   ├── planner.md
 │   ├── architect.md
 │   ├── system-analyser.md                    ⭐ NUEVO
 │   ├── design-consistency-validator.md       ⭐ NUEVO
-│   ├── coder.md                              ⭐ NUEVO
+│   ├── coder.md                              ⭐ NUEVO (+ APIs)
 │   ├── code-reviewer.md                      ⭐ NUEVO
 │   ├── documenter.md                         ⭐ NUEVO
-│   ├── integration-engineer.md
 │   ├── qa-validator.md
 │   ├── security-specialist.md
 │   ├── coordinator.md
@@ -799,7 +777,6 @@ Si alguno falla → Espera o aclara primero
 ├── /architecture/              ← Salida de Architect
 ├── /validation/                ← Salida de Design Consistency Validator
 ├── /design-validation/         ← Reportes de Design Consistency Validator
-├── /integration/               ← Salida de Integration Engineer
 ├── /testing/                   ← Salida de QA Validator
 ├── /security/                  ← Salida de Security Specialist
 ├── /operation/                 ← Salida de Documenter (guías de uso)     ⭐ NUEVO

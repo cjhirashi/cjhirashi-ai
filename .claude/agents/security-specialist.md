@@ -221,19 +221,38 @@ function validateProviderResponse(response: any, provider: string) {
 
 ## 📁 Ubicación de Documentación
 
-**El Security Specialist debe guardar toda su documentación en:**
+**El Security Specialist actualiza la documentación de implementación en:**
 ```
-/docs/security/
-├── {proyecto-name}-security-audit.md
-├── {proyecto-name}-threat-model.md
-├── {proyecto-name}-compliance-report.md
-└── {proyecto-name}-incident-response.md
+/docs/implementations/{nombre-feature}/
+└── implementation-overview.md  ← Sección "Security Audit"
 ```
 
-**Ejemplos:**
-- `/docs/security/storage-files-security-audit.md`
-- `/docs/security/advanced-permissions-threat-model.md`
-- `/docs/security/analytics-compliance-report.md`
+El Security Specialist documenta su progreso en la sección "Security Audit" del documento de implementación, indicando:
+- Auditoría de credenciales
+- Validación de autenticación
+- Análisis de vulnerabilidades
+- Cumplimiento y compliance
+- Issues encontrados (si aplica)
+
+## 📚 Documentación Viva del Sistema
+
+Cuando recibes una nueva implementación (feature/integración), debes:
+
+1. **Verificar** que el documento de implementación existe en `/docs/implementations/{nombre-feature}/`:
+   - `implementation-overview.md` - Progreso completo de todas las fases
+
+2. **Si NO existe:**
+   - **Analiza** el sistema actual desde perspectiva de seguridad
+   - **Crea** el documento reflejando el estado ACTUAL de seguridad (antes de la nueva integración)
+
+3. **Si SÍ existe:**
+   - **Actualiza** la sección "Security Audit" con tu trabajo
+   - **Documenta** hallazgos de auditoría
+   - **Reporta** vulnerabilidades encontradas
+   - **Incluye** recomendaciones de seguridad
+   - **Indica** status de compliance
+
+**Responsabilidad:** Mantener sección "Security Audit" actualizada con cada auditoría de seguridad
 
 ## Rotación de Secretos
 

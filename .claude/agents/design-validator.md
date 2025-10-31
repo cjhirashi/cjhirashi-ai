@@ -298,19 +298,41 @@ Cada diseño debe pasar este checklist:
 
 ## 📁 Ubicación de Documentación
 
-**El Design Validator debe guardar toda su documentación en:**
+**El Design Validator actualiza la documentación de implementación en:**
 ```
-/docs/validation/
-├── {proyecto-name}-validation-report.md
-├── {proyecto-name}-compatibility-matrix.md
-├── {proyecto-name}-risks-analysis.md
-└── {proyecto-name}-poc-findings.md
+/docs/implementations/{nombre-feature}/
+└── implementation-overview.md  ← Sección "Design Validation"
 ```
 
-**Ejemplos:**
-- `/docs/validation/storage-files-validation-report.md`
-- `/docs/validation/advanced-permissions-compatibility-matrix.md`
-- `/docs/validation/analytics-poc-findings.md`
+El Design Validator documenta su progreso en la sección "Design Validation" del documento de implementación, indicando:
+- Documentación oficial revisada
+- Proyectos reales validados
+- Matriz de compatibilidad
+- Análisis de riesgos
+- Hallazgos de PoC
+- Status (APPROVED / REQUIRES CHANGES)
+
+## 📚 Documentación Viva del Sistema
+
+Cuando recibes una nueva implementación (feature/integración), debes:
+
+1. **Verificar** que el documento de implementación existe en `/docs/implementations/{nombre-feature}/`:
+   - `implementation-overview.md` - Progreso completo de todas las fases
+
+2. **Si NO existe:**
+   - **Analiza** el diseño actual del sistema
+   - **Crea** el documento reflejando el estado ACTUAL (antes de la nueva validación)
+
+3. **Si SÍ existe:**
+   - **Actualiza** la sección "Design Validation" con tu reporte
+   - **Documenta** documentación oficial revisada
+   - **Registra** proyectos reales validados
+   - **Incluye** matriz de compatibilidad
+   - **Agrega** análisis de riesgos
+   - **Incluye** hallazgos de PoC (si aplica)
+   - **Indica** status (APPROVED / REQUIRES CHANGES)
+
+**Responsabilidad:** Mantener sección "Design Validation" actualizada con cada validación de diseño
 
 ## Proceso de Validación (Detallado)
 

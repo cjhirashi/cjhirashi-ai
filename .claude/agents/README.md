@@ -24,25 +24,32 @@ Este directorio contiene documentación para un equipo de **agentes expertos** q
 - Crear PoC de componentes críticos
 - **Previene errores antes de codificar**
 
-### 4. 🔧 [Integration Engineer](./integration-engineer.md) - Especialista en Integración
-- Investigar APIs externas
-- Implementar integraciones
-- Manejar autenticación
-- Testear endpoints
+### 4. 💻 [Coder](./coder.md) - Especialista en Implementación ⭐ **NUEVO**
+- Implementar código limpio y bien documentado
+- Integrar APIs y servicios externos
+- Manejar autenticación y error handling
+- Escribir tests unitarios e integración
+- **Responsable de código + APIs**
 
-### 5. ✅ [QA Validator](./qa-validator.md) - Especialista en Validación
+### 5. 🔍 [Code Reviewer](./code-reviewer.md) - Revisor de Código ⭐ **NUEVO**
+- Validar calidad del código
+- Revisar cumplimiento de especificación
+- Asegurar estándares del proyecto
+- Poder de escalada a Architect
+
+### 6. ✅ [QA Validator](./qa-validator.md) - Especialista en Validación
 - Definir criterios de aceptación
 - Crear casos de prueba
 - Validar funcionamiento
 - Reportar calidad
 
-### 6. 🔐 [Security Specialist](./security-specialist.md) - Especialista en Seguridad
+### 7. 🔐 [Security Specialist](./security-specialist.md) - Especialista en Seguridad
 - Proteger credenciales
 - Auditar vulnerabilidades
 - Validar compliance
 - Gestionar secretos
 
-### 7. 🎭 [Coordinator](./coordinator.md) - Coordinador
+### 8. 🎭 [Coordinator](./coordinator.md) - Coordinador
 - Orquestar trabajo de especialistas
 - Resolver conflictos
 - Identificar bloqueos
@@ -120,7 +127,7 @@ Consulta estas referencias:
 
 ### Opción B: Tarea mediana
 "Integrar Anthropic"
-→ Coordinador → Integration Engineer + QA Validator + Security
+→ Coordinador → Coder + QA Validator + Security
 
 ### Opción C: Tarea compleja
 "Arquitectura Multi-Proveedor LLM"
@@ -128,10 +135,11 @@ Consulta estas referencias:
 1. Planner: Plan (2-3 horas)
 2. Architect: Diseño (4-6 horas)
 3. Design Validator: Validación del diseño (2-3 horas) ⭐ **NUEVO**
-4. Integration Engineer: Implementación (16-20 horas)
-5. QA Validator: Testing (8-12 horas)
-6. Security: Auditoría (4-6 horas)
-7. Coordinator: Reporte final (1 hora)
+4. Coder: Implementación de código + APIs (16-20 horas)
+5. Code Reviewer: Revisión de código (2-3 horas) ⭐ **NUEVO**
+6. QA Validator: Testing (8-12 horas)
+7. Security: Auditoría (4-6 horas)
+8. Coordinator: Reporte final (1 hora)
 
 ## 🎯 Ejemplo: Multi-Proveedor LLM
 
@@ -165,7 +173,7 @@ FASE 3: DESIGN VALIDATOR ⭐ NUEVO
 └─ ETA: 3.5 horas
    (Retorno: ✅ APROBADO o ❌ REQUIERE AJUSTES)
 
-FASE 4: INTEGRATION ENGINEER
+FASE 4: CODER (Implementación de código + APIs)
 ├─ Refactorizar providers.ts: 4 horas
 ├─ Integrar Anthropic: 3 horas
 ├─ Integrar OpenAI: 3 horas
@@ -174,29 +182,35 @@ FASE 4: INTEGRATION ENGINEER
 ├─ Integrar Vertex AI: 4 horas
 └─ ETA: 20 horas
 
-FASE 5: QA VALIDATOR
+FASE 5: CODE REVIEWER ⭐ NUEVO
+├─ Revisar calidad de código: 2 horas
+├─ Validar integraciones: 1 hora
+└─ ETA: 3 horas
+
+FASE 6: QA VALIDATOR
 ├─ Plan de testing: 2 horas
 ├─ Tests unitarios: 4 horas
 ├─ Tests integración: 4 horas
 ├─ Tests seguridad: 2 horas
 └─ ETA: 12 horas
 
-FASE 6: SECURITY SPECIALIST
+FASE 7: SECURITY SPECIALIST
 ├─ Auditoría de credenciales: 2 horas
 ├─ Validación de inputs/outputs: 1 hora
 ├─ Política de secretos: 2 horas
 └─ ETA: 5 horas
 
-FASE 7: COORDINADOR
+FASE 8: COORDINADOR
 ├─ Reporte final: 1 hora
 └─ ETA: 1 hora
 
 ═════════════════════════════════════════
-TIEMPO TOTAL ESTIMADO: 49 horas (6-7 días de trabajo)
+TIEMPO TOTAL ESTIMADO: 52 horas (6-7 días de trabajo)
 FECHA ESTIMADA: 5-7 noviembre 2025
 ═════════════════════════════════════════
-✨ MEJORA: Design Validator previene errores que costaban
-   días adicionales. ROI: Ahorra 10-20% del tiempo total.
+✨ MEJORA: Coder + Code Reviewer actúan como especialistas
+   dedicados. Consolidación de Integration Engineer optimiza
+   flujo. ROI: Mejor calidad con menos complejidad.
 
 ¿Aprobado para proceder?
 ```
@@ -214,10 +228,16 @@ ARCHITECT ✓
 ├─ ¿Coherente con codebase?
 └─ ¿Security validado?
 
-INTEGRATION ENGINEER ✓
+CODER ✓
 ├─ ¿Código compila?
-├─ ¿APIs funcionan?
-└─ ¿Error handling completo?
+├─ ¿APIs integradas funcionan?
+├─ ¿Error handling completo?
+└─ ¿Tests unitarios listos?
+
+CODE REVIEWER ✓
+├─ ¿Código cumple estándares?
+├─ ¿Especificación implementada?
+└─ ¿Legibilidad y documentación?
 
 QA VALIDATOR ✓
 ├─ ¿Tests pasan 100%?
@@ -242,7 +262,8 @@ Antes de cualquier merge/deploy:
 - [ ] **Planner**: Plan está documentado
 - [ ] **Architect**: Diseño aprobado
 - [ ] **Design Validator**: Diseño validado en fuentes oficiales ⭐ **GATE CRÍTICO**
-- [ ] **Integration Engineer**: Código escrito y compilado
+- [ ] **Coder**: Código escrito, compilado, integraciones OK
+- [ ] **Code Reviewer**: Código revisado y aprobado ⭐ **GATE DE CALIDAD**
 - [ ] **QA Validator**: Todos los tests pasan
 - [ ] **Security**: Auditoría completada sin issues críticos
 - [ ] **Coordinator**: Status final: ✅ READY
@@ -253,7 +274,8 @@ Antes de cualquier merge/deploy:
 ```
 "@Planner, ¿cuántos días para el plan de X?"
 "@Architect, valida este diseño"
-"@Integration Engineer, ¿cómo integrar Y?"
+"@Coder, implementa la integración con Y"
+"@Code Reviewer, revisa este código"
 ```
 
 ### A través del Coordinador:
@@ -287,10 +309,11 @@ El equipo está diseñado con:
 Cada implementación produce:
 1. **Plan** - Cronograma y estrategia
 2. **Arquitectura** - Diagramas y decisiones
-3. **API Docs** - Cómo usar la característica
-4. **Test Plan** - Casos de prueba
-5. **Security Report** - Validaciones de seguridad
-6. **User Guide** - Cómo el usuario lo usa
+3. **Implementación** - Código + Integraciones de APIs
+4. **Revisión** - Reporte de calidad de código
+5. **Test Plan** - Casos de prueba
+6. **Security Report** - Validaciones de seguridad
+7. **User Guide** - Cómo el usuario lo usa
 
 ## 🎯 Misión del Equipo
 
@@ -299,5 +322,7 @@ Cada implementación produce:
 ---
 
 **Creado**: 2025-10-30
-**Última actualización**: 2025-10-30
+**Última actualización**: 2025-10-31
+**Versión**: 1.1 - Consolidación de Integration Engineer en Coder
+**Agentes Activos**: 10 especialistas
 **Mantenedor**: Coordinador

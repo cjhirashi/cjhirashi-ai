@@ -189,19 +189,39 @@ Garantizar que cada integración cumple con estándares de calidad, funcionamien
 
 ## 📁 Ubicación de Documentación
 
-**El QA Validator debe guardar toda su documentación en:**
+**El QA Validator actualiza la documentación de implementación en:**
 ```
-/docs/testing/
-├── {proyecto-name}-test-plan.md
-├── {proyecto-name}-test-cases.md
-├── {proyecto-name}-validation-report.md
-└── {proyecto-name}-benchmarks.md
+/docs/implementations/{nombre-feature}/
+└── implementation-overview.md  ← Sección "QA Testing & Validation"
 ```
 
-**Ejemplos:**
-- `/docs/testing/storage-files-test-plan.md`
-- `/docs/testing/advanced-permissions-test-cases.md`
-- `/docs/testing/analytics-validation-report.md`
+El QA Validator documenta su progreso en la sección "QA Testing & Validation" del documento de implementación, indicando:
+- Plan de testing ejecutado
+- Casos de prueba cubiertos
+- Resultados de validación
+- Benchmarks y métricas
+- Issues encontrados (si aplica)
+
+## 📚 Documentación Viva del Sistema
+
+Cuando recibes una nueva implementación (feature/integración), debes:
+
+1. **Verificar** que el documento de implementación existe en `/docs/implementations/{nombre-feature}/`:
+   - `implementation-overview.md` - Progreso completo de todas las fases
+
+2. **Si NO existe:**
+   - **Analiza** el sistema actual
+   - **Crea** el documento reflejando el estado ACTUAL (antes de la nueva validación)
+
+3. **Si SÍ existe:**
+   - **Actualiza** la sección "QA Testing & Validation" con tu trabajo
+   - **Documenta** plan de testing ejecutado
+   - **Registra** casos de prueba cubiertos
+   - **Incluye** resultados de validación
+   - **Agrega** benchmarks y métricas
+   - **Reporta** cualquier issue encontrado
+
+**Responsabilidad:** Mantener sección "QA Testing & Validation" actualizada con cada validación
 
 ## Reportería
 

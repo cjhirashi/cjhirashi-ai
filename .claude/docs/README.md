@@ -99,6 +99,29 @@ Documentación de referencia son **documentos técnicos y de flujo** que definen
   - Ejemplos correctos e incorrectos
 - **Cuándo consultarlo:** Cuando guardas documentación
 
+### AGENT-DOCUMENTATION-MAP.md ⭐ NUEVO
+- **Propósito:** Mapa completo de responsabilidades documentales por agente
+- **Contenido:**
+  - Tabla rápida de responsabilidades (todos los agentes)
+  - Detalles por cada agente (quién, qué, dónde)
+  - Vista por documento (dónde va cada cosa)
+  - Matriz de decisión
+  - Conflictos identificados y resueltos
+- **Cuándo consultarlo:** Para entender quién gestiona qué, o resolver conflictos de responsabilidad
+
+### ORCHESTRATION-WORKFLOW.md ⭐ NUEVO
+- **Propósito:** Visualizar el flujo completo de orquestación con diagramas Mermaid
+- **Contenido:**
+  - Diagrama completo de 5 fases
+  - Flujo detallado por fase
+  - Estructura de documentos por fase
+  - Validaciones por fase
+  - Especialistas por fase
+  - Puntos críticos de control (6 gates)
+  - Checklist de consistencia
+  - Caso de uso real
+- **Cuándo consultarlo:** Para entender el flujo visual completo o validar consistencia
+
 ---
 
 ## 🎯 Cómo Usar Esta Documentación
@@ -124,6 +147,23 @@ Documentación de referencia son **documentos técnicos y de flujo** que definen
 1. **Consulta:** REFERENCE → DOCUMENTATION_LOCATIONS.md
 2. O Lee: GUIDES → SEPARATION-OF-CONCERNS.md
 
+### Si necesitas saber qué agente gestiona qué documento:
+
+1. **Consulta:** REFERENCE → **AGENT-DOCUMENTATION-MAP.md** ⭐
+2. Verás tabla clara de responsabilidades
+3. Detalles por agente
+4. Vista por documento
+
+### Si quieres visualizar el flujo completo de orquestación:
+
+1. **Abre:** REFERENCE → **ORCHESTRATION-WORKFLOW.md** ⭐
+2. Verás:
+   - Diagrama Mermaid del flujo completo (5 fases)
+   - Flujos detallados por fase
+   - Puntos de control y validación
+   - Checklist de consistencia
+   - Caso de uso real paso a paso
+
 ---
 
 ## 📊 Cuadro de Referencia Rápida
@@ -136,6 +176,8 @@ Documentación de referencia son **documentos técnicos y de flujo** que definen
 | Saber dónde guardar | Reference | DOCUMENTATION_LOCATIONS.md |
 | Entender validación de diseño | Reference | DESIGN_VALIDATION_FLOW.md |
 | Clarificar .claude/docs vs /docs | Guides | SEPARATION-OF-CONCERNS.md |
+| Ver responsabilidades de agentes | Reference | **AGENT-DOCUMENTATION-MAP.md** ⭐ |
+| Ver flujo visual completo | Reference | **ORCHESTRATION-WORKFLOW.md** ⭐ |
 
 ---
 
@@ -184,7 +226,9 @@ PLAN-MD-GUIDE.md
     │
     ├── /reference/              ← Documentación de referencia
     │   ├── DESIGN_VALIDATION_FLOW.md
-    │   └── DOCUMENTATION_LOCATIONS.md
+    │   ├── DOCUMENTATION_LOCATIONS.md
+    │   ├── AGENT-DOCUMENTATION-MAP.md ⭐ NUEVO
+    │   └── ORCHESTRATION-WORKFLOW.md ⭐ NUEVO
     │
     └── README.md                ← Este archivo
 ```
@@ -196,4 +240,4 @@ PLAN-MD-GUIDE.md
 Cuando necesites información específica, usa la tabla de referencia rápida arriba para ir directamente al archivo que necesitas.
 
 **Última actualización:** 2025-10-31
-**Versión:** 1.0 - Estructura organizada de documentación
+**Versión:** 1.2 - Agregados AGENT-DOCUMENTATION-MAP y ORCHESTRATION-WORKFLOW para visualización completa

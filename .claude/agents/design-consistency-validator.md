@@ -106,15 +106,37 @@ Architect ajusta diseño → Design Validator revalida
 
 ## 📁 Ubicación de Documentación
 
-**El Design Consistency Validator integra su reporte en el documento de implementación:**
-
-Los reportes se incluyen en:
+**El Design Consistency Validator actualiza la documentación de implementación en:**
 ```
-/docs/implementations/{feature-name}/
+/docs/implementations/{nombre-feature}/
 └── implementation-overview.md  ← Sección "Design Validation"
 ```
 
-**No crear archivos separados.** La validación es parte del documento de implementación único.
+El Design Consistency Validator documenta su progreso en la sección "Design Validation" del documento de implementación, indicando:
+- Fecha de validación
+- Problemas encontrados (si aplica)
+- Status (APPROVED / REQUIRES CHANGES)
+- Hallazgos de investigación
+
+## 📚 Documentación Viva del Sistema
+
+Cuando recibes una nueva implementación (feature/integración), debes:
+
+1. **Verificar** que el documento de implementación existe en `/docs/implementations/{nombre-feature}/`:
+   - `implementation-overview.md` - Progreso completo de todas las fases
+
+2. **Si NO existe:**
+   - **Analiza** el diseño actual del sistema
+   - **Crea** el documento reflejando el estado ACTUAL (antes de la nueva validación)
+
+3. **Si SÍ existe:**
+   - **Actualiza** la sección "Design Validation" con tu reporte
+   - **Documenta** fecha de validación
+   - **Registra** problemas encontrados (si aplica)
+   - **Indica** status (APPROVED / REQUIRES CHANGES)
+   - **Incluye** hallazgos de investigación
+
+**Responsabilidad:** Mantener sección "Design Validation" actualizada con cada validación de consistencia
 
 ## Checklist de Validación
 

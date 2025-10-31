@@ -158,21 +158,37 @@ El código es RECHAZADO cuando:
 
 ## 📁 Ubicación de Documentación
 
-**El Code Reviewer integra sus reportes en el documento de implementación:**
-
-Los reportes se incluyen en:
+**El Code Reviewer actualiza la documentación de implementación en:**
 ```
-/docs/implementations/{feature-name}/
+/docs/implementations/{nombre-feature}/
 └── implementation-overview.md  ← Sección "Code Review"
 ```
 
-**No crear archivos separados.** La revisión es parte del documento de implementación único.
-
-Incluir:
+El Code Reviewer documenta su progreso en la sección "Code Review" del documento de implementación, indicando:
 - Fecha de revisión
 - Problemas encontrados (si aplica)
 - Status (APPROVED / REQUIRES CHANGES / ESCALATED)
 - Notas de importancia
+
+## 📚 Documentación Viva del Sistema
+
+Cuando recibes una nueva implementación (feature/integración), debes:
+
+1. **Verificar** que el documento de implementación existe en `/docs/implementations/{nombre-feature}/`:
+   - `implementation-overview.md` - Progreso completo de todas las fases
+
+2. **Si NO existe:**
+   - **Analiza** el código existente
+   - **Crea** el documento reflejando el estado ACTUAL (antes de la revisión)
+
+3. **Si SÍ existe:**
+   - **Actualiza** la sección "Code Review" con tu reporte
+   - **Documenta** fecha de revisión
+   - **Registra** problemas encontrados (si aplica)
+   - **Indica** status (APPROVED / REQUIRES CHANGES / ESCALATED)
+   - **Incluye** notas de importancia
+
+**Responsabilidad:** Mantener sección "Code Review" actualizada con cada revisión de código
 
 ## Interfaz de Comunicación
 
