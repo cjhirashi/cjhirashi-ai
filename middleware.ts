@@ -85,6 +85,10 @@ export async function middleware(request: NextRequest) {
   }
 
   // 6. LEGACY ROUTES: Handle backward compatibility
+  if (pathname === "/chat") {
+    return NextResponse.redirect(new URL("/dashboard/chat", request.url));
+  }
+
   if (pathname.startsWith("/chat/")) {
     const chatId = pathname.replace("/chat/", "");
     return NextResponse.redirect(
