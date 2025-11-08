@@ -26,9 +26,21 @@ export async function middleware(request: NextRequest) {
   const authRoutes = ["/login", "/register"];
 
   if (publicRoutes.includes(pathname) || authRoutes.includes(pathname)) {
-    // Already authenticated? Redirect away from auth pages
+    // Already authenticated? Handle based on user type
     if (token && authRoutes.includes(pathname)) {
-      return NextResponse.redirect(new URL("/dashboard", request.url));
+      const isGuest = guestRegex.test(token?.email ?? "");
+
+      if (isGuest) {
+        // Guest users: redirect from /login to /register to complete registration
+        if (pathname === "/login") {
+          return NextResponse.redirect(new URL("/register?message=Please complete your registration", request.url));
+        }
+        // Allow guests to access /register
+        return NextResponse.next();
+      } else {
+        // Registered users: redirect away from auth pages to dashboard
+        return NextResponse.redirect(new URL("/dashboard", request.url));
+      }
     }
 
     return NextResponse.next();
