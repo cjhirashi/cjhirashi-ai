@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
-import Script from "next/script";
 import { redirect } from "next/navigation";
-import { AppSidebar } from "@/components/app-sidebar";
+import Script from "next/script";
+import { SidebarRouter } from "@/components/dashboard/sidebar-router";
 import { DataStreamProvider } from "@/components/data-stream-provider";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { auth } from "../(auth)/auth";
@@ -31,7 +31,7 @@ export default async function DashboardLayout({
       />
       <DataStreamProvider>
         <SidebarProvider defaultOpen={!isCollapsed}>
-          <AppSidebar user={session?.user} />
+          <SidebarRouter user={session?.user} />
           <SidebarInset>{children}</SidebarInset>
         </SidebarProvider>
       </DataStreamProvider>

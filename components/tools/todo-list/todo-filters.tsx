@@ -60,7 +60,12 @@ export function TodoFilters({
 
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
         <div>
-          <label htmlFor="priority-filter" className="mb-2 block font-medium text-sm">Prioridad</label>
+          <label
+            className="mb-2 block font-medium text-sm"
+            htmlFor="priority-filter"
+          >
+            Prioridad
+          </label>
           <Select onValueChange={onFilterPriorityChange} value={filterPriority}>
             <SelectTrigger id="priority-filter">
               <SelectValue />
@@ -75,7 +80,12 @@ export function TodoFilters({
         </div>
 
         <div>
-          <label htmlFor="sort-filter" className="mb-2 block font-medium text-sm">Ordenar por</label>
+          <label
+            className="mb-2 block font-medium text-sm"
+            htmlFor="sort-filter"
+          >
+            Ordenar por
+          </label>
           <Select onValueChange={onSortByChange} value={sortBy}>
             <SelectTrigger id="sort-filter">
               <SelectValue />

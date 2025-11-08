@@ -2,6 +2,8 @@ import type { InferSelectModel } from "drizzle-orm";
 import {
   boolean,
   foreignKey,
+  index,
+  integer,
   json,
   jsonb,
   pgTable,
@@ -21,18 +23,30 @@ export const user = pgTable("User", {
 
 export type User = InferSelectModel<typeof user>;
 
-export const chat = pgTable("Chat", {
-  id: uuid("id").primaryKey().notNull().defaultRandom(),
-  createdAt: timestamp("createdAt").notNull(),
-  title: text("title").notNull(),
-  userId: uuid("userId")
-    .notNull()
-    .references(() => user.id),
-  visibility: varchar("visibility", { enum: ["public", "private"] })
-    .notNull()
-    .default("private"),
-  lastContext: jsonb("lastContext").$type<AppUsage | null>(),
-});
+export const chat = pgTable(
+  "Chat",
+  {
+    id: uuid("id").primaryKey().notNull().defaultRandom(),
+    createdAt: timestamp("createdAt").notNull(),
+    title: text("title").notNull(),
+    userId: uuid("userId")
+      .notNull()
+      .references(() => user.id),
+    visibility: varchar("visibility", { enum: ["public", "private"] })
+      .notNull()
+      .default("private"),
+    lastContext: jsonb("lastContext").$type<AppUsage | null>(),
+    agentType: varchar("agentType", { length: 50 })
+      .notNull()
+      .default("chat-general"),
+  },
+  (table) => ({
+    userIdAgentTypeIdx: index("Chat_userId_agentType_idx").on(
+      table.userId,
+      table.agentType
+    ),
+  })
+);
 
 export type Chat = InferSelectModel<typeof chat>;
 
@@ -171,3 +185,86 @@ export const stream = pgTable(
 );
 
 export type Stream = InferSelectModel<typeof stream>;
+
+export const agentType = pgTable("AgentType", {
+  id: varchar("id", { length: 50 }).primaryKey().notNull(),
+  name: text("name").notNull(),
+  description: text("description"),
+  isActive: boolean("isActive").notNull().default(true),
+  createdAt: timestamp("createdAt").notNull().defaultNow(),
+});
+
+export type AgentType = InferSelectModel<typeof agentType>;
+
+export const todoItem = pgTable(
+  "TodoItem",
+  {
+    id: uuid("id").primaryKey().notNull().defaultRandom(),
+    userId: uuid("userId")
+      .notNull()
+      .references(() => user.id),
+    title: text("title").notNull(),
+    description: text("description"),
+    completed: boolean("completed").notNull().default(false),
+    priority: varchar("priority", { enum: ["low", "medium", "high"] })
+      .notNull()
+      .default("medium"),
+    dueDate: timestamp("dueDate"),
+    createdAt: timestamp("createdAt").notNull().defaultNow(),
+    updatedAt: timestamp("updatedAt").notNull().defaultNow(),
+  },
+  (table) => ({
+    userIdCompletedIdx: index("TodoItem_userId_completed_idx").on(
+      table.userId,
+      table.completed
+    ),
+  })
+);
+
+export type TodoItem = InferSelectModel<typeof todoItem>;
+
+export const storedFile = pgTable(
+  "StoredFile",
+  {
+    id: uuid("id").primaryKey().notNull().defaultRandom(),
+    userId: uuid("userId")
+      .notNull()
+      .references(() => user.id),
+    fileName: text("fileName").notNull(),
+    fileSize: integer("fileSize").notNull(),
+    fileType: text("fileType").notNull(),
+    fileUrl: text("fileUrl").notNull(),
+    uploadedAt: timestamp("uploadedAt").notNull().defaultNow(),
+  },
+  (table) => ({
+    userIdIdx: index("StoredFile_userId_idx").on(table.userId),
+  })
+);
+
+export type StoredFile = InferSelectModel<typeof storedFile>;
+
+export const userMessage = pgTable(
+  "UserMessage",
+  {
+    id: uuid("id").primaryKey().notNull().defaultRandom(),
+    senderId: uuid("senderId")
+      .notNull()
+      .references(() => user.id),
+    recipientId: uuid("recipientId")
+      .notNull()
+      .references(() => user.id),
+    content: text("content").notNull(),
+    attachments: jsonb("attachments"),
+    isRead: boolean("isRead").notNull().default(false),
+    createdAt: timestamp("createdAt").notNull().defaultNow(),
+    updatedAt: timestamp("updatedAt").notNull().defaultNow(),
+  },
+  (table) => ({
+    senderIdRecipientIdIdx: index("UserMessage_senderId_recipientId_idx").on(
+      table.senderId,
+      table.recipientId
+    ),
+  })
+);
+
+export type UserMessage = InferSelectModel<typeof userMessage>;

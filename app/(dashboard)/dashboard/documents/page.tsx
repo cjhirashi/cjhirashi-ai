@@ -1,7 +1,7 @@
-import { auth } from "@/app/(auth)/auth";
 import { redirect } from "next/navigation";
-import { getDocumentsByUserId } from "@/lib/db/queries";
+import { auth } from "@/app/(auth)/auth";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { getDocumentsByUserId } from "@/lib/db/queries";
 
 export default async function DocumentsPage() {
   const session = await auth();
@@ -14,7 +14,7 @@ export default async function DocumentsPage() {
 
   return (
     <div className="container mx-auto p-8">
-      <h1 className="mb-6 text-3xl font-bold">Documents</h1>
+      <h1 className="mb-6 font-bold text-3xl">Documents</h1>
 
       {documents.length === 0 ? (
         <Card>
@@ -32,7 +32,7 @@ export default async function DocumentsPage() {
                 <CardTitle className="truncate">{doc.title}</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                   Created: {new Date(doc.createdAt).toLocaleDateString()}
                 </p>
               </CardContent>

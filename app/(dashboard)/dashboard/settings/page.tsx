@@ -1,5 +1,5 @@
-import { auth } from "@/app/(auth)/auth";
 import { redirect } from "next/navigation";
+import { auth } from "@/app/(auth)/auth";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default async function SettingsPage() {
@@ -11,7 +11,7 @@ export default async function SettingsPage() {
 
   return (
     <div className="container mx-auto max-w-2xl p-8">
-      <h1 className="mb-6 text-3xl font-bold">Settings</h1>
+      <h1 className="mb-6 font-bold text-3xl">Settings</h1>
 
       <Card>
         <CardHeader>
@@ -19,12 +19,12 @@ export default async function SettingsPage() {
         </CardHeader>
         <CardContent className="space-y-4">
           <div>
-            <label className="text-sm font-medium">Email</label>
+            <label className="font-medium text-sm">Email</label>
             <p className="text-muted-foreground">{session.user.email}</p>
           </div>
 
           <div>
-            <label className="text-sm font-medium">Account Type</label>
+            <label className="font-medium text-sm">Account Type</label>
             <p className="text-muted-foreground">
               {session.user.type === "regular" ? "Registered User" : "Guest"}
             </p>
@@ -37,7 +37,7 @@ export default async function SettingsPage() {
           <CardTitle>Preferences</CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-sm text-muted-foreground">
+          <p className="text-muted-foreground text-sm">
             Preferences coming soon...
           </p>
         </CardContent>

@@ -1,7 +1,10 @@
-import { auth } from "@/app/(auth)/auth";
 import { redirect } from "next/navigation";
-import { getChatsByUserId, getTotalMessageCountByUserId } from "@/lib/db/queries";
+import { auth } from "@/app/(auth)/auth";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  getChatsByUserId,
+  getTotalMessageCountByUserId,
+} from "@/lib/db/queries";
 
 export default async function StatsPage() {
   const session = await auth();
@@ -35,19 +38,19 @@ export default async function StatsPage() {
 
   return (
     <div className="container mx-auto p-8">
-      <h1 className="mb-6 text-3xl font-bold">Usage Statistics</h1>
+      <h1 className="mb-6 font-bold text-3xl">Usage Statistics</h1>
 
       <div className="grid gap-4 md:grid-cols-3">
         {stats.map((stat, index) => (
           <Card key={index}>
             <CardHeader>
-              <CardTitle className="text-sm font-medium text-muted-foreground">
+              <CardTitle className="font-medium text-muted-foreground text-sm">
                 {stat.title}
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-3xl font-bold">{stat.value}</p>
-              <p className="text-sm text-muted-foreground">
+              <p className="font-bold text-3xl">{stat.value}</p>
+              <p className="text-muted-foreground text-sm">
                 {stat.description}
               </p>
             </CardContent>
@@ -65,9 +68,9 @@ export default async function StatsPage() {
           ) : (
             <ul className="space-y-2">
               {chats.slice(0, 5).map((chat) => (
-                <li key={chat.id} className="flex justify-between">
+                <li className="flex justify-between" key={chat.id}>
                   <span className="truncate">{chat.title}</span>
-                  <span className="text-sm text-muted-foreground">
+                  <span className="text-muted-foreground text-sm">
                     {new Date(chat.createdAt).toLocaleDateString()}
                   </span>
                 </li>

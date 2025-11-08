@@ -33,14 +33,18 @@ export async function middleware(request: NextRequest) {
       if (isGuest) {
         // Guest users: redirect from /login to /register to complete registration
         if (pathname === "/login") {
-          return NextResponse.redirect(new URL("/register?message=Please complete your registration", request.url));
+          return NextResponse.redirect(
+            new URL(
+              "/register?message=Please complete your registration",
+              request.url
+            )
+          );
         }
         // Allow guests to access /register
         return NextResponse.next();
-      } else {
-        // Registered users: redirect away from auth pages to dashboard
-        return NextResponse.redirect(new URL("/dashboard", request.url));
       }
+      // Registered users: redirect away from auth pages to dashboard
+      return NextResponse.redirect(new URL("/dashboard", request.url));
     }
 
     return NextResponse.next();
@@ -96,7 +100,83 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  // 6. LEGACY ROUTES: Handle backward compatibility
+  // 6. CHAT RESTRUCTURE REDIRECTS: Migrate from /dashboard/chat to /dashboard/agents/chat-general
+
+  // Dashboard route redirects
+  if (pathname === "/dashboard/chat") {
+    return NextResponse.redirect(
+      new URL("/dashboard/agents/chat-general", request.url),
+      { status: 308 }
+    );
+  }
+
+  if (pathname.startsWith("/dashboard/chat/")) {
+    const chatId = pathname.replace("/dashboard/chat/", "");
+    return NextResponse.redirect(
+      new URL(`/dashboard/agents/chat-general/${chatId}`, request.url),
+      { status: 308 }
+    );
+  }
+
+  // API endpoint redirects - Order matters! Check specific routes before general ones
+
+  // /api/chat/* routes (must be before /api/chat exact match)
+  if (pathname.startsWith("/api/chat/")) {
+    const rest = pathname.replace("/api/chat/", "");
+    const newUrl = new URL(
+      `/api/agents/chat-general/chat/${rest}`,
+      request.url
+    );
+    newUrl.search = request.nextUrl.search;
+    return NextResponse.redirect(newUrl, { status: 308 });
+  }
+
+  // /api/chat exact match
+  if (pathname === "/api/chat") {
+    const newUrl = new URL("/api/agents/chat-general/chat", request.url);
+    newUrl.search = request.nextUrl.search;
+    return NextResponse.redirect(newUrl, { status: 308 });
+  }
+
+  // /api/document routes
+  if (pathname.startsWith("/api/document")) {
+    const newUrl = new URL("/api/agents/chat-general/document", request.url);
+    newUrl.search = request.nextUrl.search;
+    return NextResponse.redirect(newUrl, { status: 308 });
+  }
+
+  // /api/files/upload routes
+  if (pathname.startsWith("/api/files/upload")) {
+    const newUrl = new URL(
+      "/api/agents/chat-general/files/upload",
+      request.url
+    );
+    newUrl.search = request.nextUrl.search;
+    return NextResponse.redirect(newUrl, { status: 308 });
+  }
+
+  // /api/history routes
+  if (pathname.startsWith("/api/history")) {
+    const newUrl = new URL("/api/agents/chat-general/history", request.url);
+    newUrl.search = request.nextUrl.search;
+    return NextResponse.redirect(newUrl, { status: 308 });
+  }
+
+  // /api/vote routes
+  if (pathname.startsWith("/api/vote")) {
+    const newUrl = new URL("/api/agents/chat-general/vote", request.url);
+    newUrl.search = request.nextUrl.search;
+    return NextResponse.redirect(newUrl, { status: 308 });
+  }
+
+  // /api/suggestions routes
+  if (pathname.startsWith("/api/suggestions")) {
+    const newUrl = new URL("/api/agents/chat-general/suggestions", request.url);
+    newUrl.search = request.nextUrl.search;
+    return NextResponse.redirect(newUrl, { status: 308 });
+  }
+
+  // 7. LEGACY ROUTES: Handle backward compatibility
   if (pathname === "/chat") {
     return NextResponse.redirect(new URL("/dashboard/chat", request.url));
   }
@@ -108,7 +188,7 @@ export async function middleware(request: NextRequest) {
     );
   }
 
-  // 7. Default: Allow (for static assets, etc.)
+  // 8. Default: Allow (for static assets, etc.)
   return NextResponse.next();
 }
 

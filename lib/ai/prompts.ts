@@ -50,12 +50,32 @@ About the origin of user's request:
 - country: ${requestHints.country}
 `;
 
+const multiToolsPrompt = `
+You have access to an extended set of tools including:
+- Weather information (getWeather)
+- Document creation and editing (createDocument, updateDocument)
+- Document edit suggestions (requestSuggestions)
+- Web search (webSearch)
+- Mathematical calculations (calculator)
+- Unit conversions (unitConverter)
+
+Use these tools proactively when appropriate. For example:
+- Use calculator for complex arithmetic or mathematical expressions
+- Use unitConverter for measurement conversions
+- Use webSearch to find current information
+- Create documents for substantial content
+
+Remember to provide context and explanation alongside tool results.
+`;
+
 export const systemPrompt = ({
   selectedChatModel,
   requestHints,
+  agentType = "chat-general",
 }: {
   selectedChatModel: string;
   requestHints: RequestHints;
+  agentType?: "chat-general" | "multi-tools";
 }) => {
   const requestPrompt = getRequestPromptFromHints(requestHints);
 
@@ -63,7 +83,13 @@ export const systemPrompt = ({
     return `${regularPrompt}\n\n${requestPrompt}`;
   }
 
-  return `${regularPrompt}\n\n${requestPrompt}\n\n${artifactsPrompt}`;
+  const basePrompt = `${regularPrompt}\n\n${requestPrompt}\n\n${artifactsPrompt}`;
+
+  if (agentType === "multi-tools") {
+    return `${basePrompt}\n\n${multiToolsPrompt}`;
+  }
+
+  return basePrompt;
 };
 
 export const codePrompt = `

@@ -10,8 +10,8 @@ import {
   gte,
   inArray,
   lt,
-  sql,
   type SQL,
+  sql,
 } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
@@ -21,16 +21,20 @@ import { ChatSDKError } from "../errors";
 import type { AppUsage } from "../usage";
 import { generateUUID } from "../utils";
 import {
+  agentType,
   type Chat,
   chat,
   type DBMessage,
   document,
   message,
   type Suggestion,
+  storedFile,
   stream,
   suggestion,
+  todoItem,
   type User,
   user,
+  userMessage,
   vote,
 } from "./schema";
 import { generateHashedPassword } from "./utils";
@@ -140,7 +144,7 @@ export async function deleteAllChatsByUserId({ userId }: { userId: string }) {
       return { deletedCount: 0 };
     }
 
-    const chatIds = userChats.map(c => c.id);
+    const chatIds = userChats.map((c) => c.id);
 
     await db.delete(vote).where(inArray(vote.chatId, chatIds));
     await db.delete(message).where(inArray(message.chatId, chatIds));
@@ -611,14 +615,20 @@ export async function getDocumentsByUserId({ userId }: { userId: string }) {
   }
 }
 
-export async function getTotalMessageCountByUserId({ userId }: { userId: string }) {
+export async function getTotalMessageCountByUserId({
+  userId,
+}: {
+  userId: string;
+}) {
   try {
     const chats = await db
       .select({ id: chat.id })
       .from(chat)
       .where(eq(chat.userId, userId));
 
-    if (chats.length === 0) return 0;
+    if (chats.length === 0) {
+      return 0;
+    }
 
     const chatIds = chats.map((c) => c.id);
     const result = await db
@@ -630,5 +640,527 @@ export async function getTotalMessageCountByUserId({ userId }: { userId: string 
   } catch (_error) {
     console.error("Failed to get total message count by user ID", _error);
     return 0;
+  }
+}
+
+// =============================================================================
+// Agent Type Queries
+// =============================================================================
+
+export async function getActiveAgentTypes() {
+  try {
+    return await db
+      .select()
+      .from(agentType)
+      .where(eq(agentType.isActive, true))
+      .orderBy(asc(agentType.name));
+  } catch (_error) {
+    throw new ChatSDKError(
+      "bad_request:database",
+      "Failed to get active agent types"
+    );
+  }
+}
+
+export async function getAgentTypeById({ id }: { id: string }) {
+  try {
+    const [selectedAgentType] = await db
+      .select()
+      .from(agentType)
+      .where(eq(agentType.id, id));
+
+    return selectedAgentType ?? null;
+  } catch (_error) {
+    throw new ChatSDKError(
+      "bad_request:database",
+      "Failed to get agent type by id"
+    );
+  }
+}
+
+// =============================================================================
+// Chat Queries with Agent Type Support
+// =============================================================================
+
+export async function saveChatWithAgentType({
+  id,
+  userId,
+  title,
+  visibility,
+  agentType: agentTypeId,
+}: {
+  id: string;
+  userId: string;
+  title: string;
+  visibility: VisibilityType;
+  agentType?: string;
+}) {
+  try {
+    return await db.insert(chat).values({
+      id,
+      createdAt: new Date(),
+      userId,
+      title,
+      visibility,
+      agentType: agentTypeId ?? "chat-general",
+    });
+  } catch (_error) {
+    throw new ChatSDKError(
+      "bad_request:database",
+      "Failed to save chat with agent type"
+    );
+  }
+}
+
+export async function getChatsByUserIdAndAgentType({
+  userId,
+  agentType: agentTypeId,
+  limit = 50,
+}: {
+  userId: string;
+  agentType: string;
+  limit?: number;
+}) {
+  try {
+    return await db
+      .select()
+      .from(chat)
+      .where(and(eq(chat.userId, userId), eq(chat.agentType, agentTypeId)))
+      .orderBy(desc(chat.createdAt))
+      .limit(limit);
+  } catch (_error) {
+    throw new ChatSDKError(
+      "bad_request:database",
+      "Failed to get chats by user id and agent type"
+    );
+  }
+}
+
+export async function updateChatAgentType({
+  chatId,
+  agentType: agentTypeId,
+}: {
+  chatId: string;
+  agentType: string;
+}) {
+  try {
+    return await db
+      .update(chat)
+      .set({ agentType: agentTypeId })
+      .where(eq(chat.id, chatId));
+  } catch (_error) {
+    throw new ChatSDKError(
+      "bad_request:database",
+      "Failed to update chat agent type"
+    );
+  }
+}
+
+// =============================================================================
+// Todo Item Queries
+// =============================================================================
+
+export async function createTodoItem({
+  userId,
+  title,
+  description,
+  priority = "medium",
+  dueDate,
+}: {
+  userId: string;
+  title: string;
+  description?: string;
+  priority?: "low" | "medium" | "high";
+  dueDate?: Date;
+}) {
+  try {
+    return await db
+      .insert(todoItem)
+      .values({
+        userId,
+        title,
+        description,
+        priority,
+        dueDate,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      })
+      .returning();
+  } catch (_error) {
+    throw new ChatSDKError(
+      "bad_request:database",
+      "Failed to create todo item"
+    );
+  }
+}
+
+export async function getTodoItemsByUserId({
+  userId,
+  completed,
+  limit = 50,
+  offset = 0,
+}: {
+  userId: string;
+  completed?: boolean;
+  limit?: number;
+  offset?: number;
+}) {
+  try {
+    const whereCondition =
+      completed !== undefined
+        ? and(eq(todoItem.userId, userId), eq(todoItem.completed, completed))
+        : eq(todoItem.userId, userId);
+
+    return await db
+      .select()
+      .from(todoItem)
+      .where(whereCondition)
+      .orderBy(desc(todoItem.createdAt))
+      .limit(limit)
+      .offset(offset);
+  } catch (_error) {
+    throw new ChatSDKError(
+      "bad_request:database",
+      "Failed to get todo items by user id"
+    );
+  }
+}
+
+export async function updateTodoItem({
+  id,
+  userId,
+  title,
+  description,
+  completed,
+  priority,
+  dueDate,
+}: {
+  id: string;
+  userId: string;
+  title?: string;
+  description?: string;
+  completed?: boolean;
+  priority?: "low" | "medium" | "high";
+  dueDate?: Date;
+}) {
+  try {
+    // Verify ownership
+    const [existing] = await db
+      .select()
+      .from(todoItem)
+      .where(eq(todoItem.id, id));
+
+    if (!existing || existing.userId !== userId) {
+      throw new ChatSDKError("unauthorized:database", "Unauthorized");
+    }
+
+    const updates: Record<string, unknown> = {
+      updatedAt: new Date(),
+    };
+
+    if (title !== undefined) {
+      updates.title = title;
+    }
+    if (description !== undefined) {
+      updates.description = description;
+    }
+    if (completed !== undefined) {
+      updates.completed = completed;
+    }
+    if (priority !== undefined) {
+      updates.priority = priority;
+    }
+    if (dueDate !== undefined) {
+      updates.dueDate = dueDate;
+    }
+
+    return await db
+      .update(todoItem)
+      .set(updates)
+      .where(eq(todoItem.id, id))
+      .returning();
+  } catch (_error) {
+    throw new ChatSDKError(
+      "bad_request:database",
+      "Failed to update todo item"
+    );
+  }
+}
+
+export async function deleteTodoItem({
+  id,
+  userId,
+}: {
+  id: string;
+  userId: string;
+}) {
+  try {
+    // Verify ownership
+    const [existing] = await db
+      .select()
+      .from(todoItem)
+      .where(eq(todoItem.id, id));
+
+    if (!existing || existing.userId !== userId) {
+      throw new ChatSDKError("unauthorized:database", "Unauthorized");
+    }
+
+    return await db.delete(todoItem).where(eq(todoItem.id, id)).returning();
+  } catch (_error) {
+    throw new ChatSDKError(
+      "bad_request:database",
+      "Failed to delete todo item"
+    );
+  }
+}
+
+// =============================================================================
+// Stored File Queries
+// =============================================================================
+
+export async function createStoredFile({
+  userId,
+  fileName,
+  fileSize,
+  fileType,
+  fileUrl,
+}: {
+  userId: string;
+  fileName: string;
+  fileSize: number;
+  fileType: string;
+  fileUrl: string;
+}) {
+  try {
+    return await db
+      .insert(storedFile)
+      .values({
+        userId,
+        fileName,
+        fileSize,
+        fileType,
+        fileUrl,
+        uploadedAt: new Date(),
+      })
+      .returning();
+  } catch (_error) {
+    throw new ChatSDKError(
+      "bad_request:database",
+      "Failed to create stored file"
+    );
+  }
+}
+
+export async function getStoredFilesByUserId({
+  userId,
+  limit = 50,
+  offset = 0,
+}: {
+  userId: string;
+  limit?: number;
+  offset?: number;
+}) {
+  try {
+    return await db
+      .select()
+      .from(storedFile)
+      .where(eq(storedFile.userId, userId))
+      .orderBy(desc(storedFile.uploadedAt))
+      .limit(limit)
+      .offset(offset);
+  } catch (_error) {
+    throw new ChatSDKError(
+      "bad_request:database",
+      "Failed to get stored files by user id"
+    );
+  }
+}
+
+export async function getStoredFileById({ id }: { id: string }) {
+  try {
+    const [file] = await db
+      .select()
+      .from(storedFile)
+      .where(eq(storedFile.id, id));
+
+    return file ?? null;
+  } catch (_error) {
+    throw new ChatSDKError(
+      "bad_request:database",
+      "Failed to get stored file by id"
+    );
+  }
+}
+
+export async function deleteStoredFile({
+  id,
+  userId,
+}: {
+  id: string;
+  userId: string;
+}) {
+  try {
+    // Verify ownership
+    const [existing] = await db
+      .select()
+      .from(storedFile)
+      .where(eq(storedFile.id, id));
+
+    if (!existing || existing.userId !== userId) {
+      throw new ChatSDKError("unauthorized:database", "Unauthorized");
+    }
+
+    return await db.delete(storedFile).where(eq(storedFile.id, id)).returning();
+  } catch (_error) {
+    throw new ChatSDKError(
+      "bad_request:database",
+      "Failed to delete stored file"
+    );
+  }
+}
+
+// =============================================================================
+// User Message Queries
+// =============================================================================
+
+export async function createUserMessage({
+  senderId,
+  recipientId,
+  content,
+  attachments,
+}: {
+  senderId: string;
+  recipientId: string;
+  content: string;
+  attachments?: unknown;
+}) {
+  try {
+    return await db
+      .insert(userMessage)
+      .values({
+        senderId,
+        recipientId,
+        content,
+        attachments,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      })
+      .returning();
+  } catch (_error) {
+    throw new ChatSDKError(
+      "bad_request:database",
+      "Failed to create user message"
+    );
+  }
+}
+
+export async function getConversationMessages({
+  userId1,
+  userId2,
+  limit = 50,
+  offset = 0,
+}: {
+  userId1: string;
+  userId2: string;
+  limit?: number;
+  offset?: number;
+}) {
+  try {
+    return await db
+      .select()
+      .from(userMessage)
+      .where(
+        and(
+          eq(userMessage.senderId, userId1),
+          eq(userMessage.recipientId, userId2)
+        )
+      )
+      .orderBy(desc(userMessage.createdAt))
+      .limit(limit)
+      .offset(offset);
+  } catch (_error) {
+    throw new ChatSDKError(
+      "bad_request:database",
+      "Failed to get conversation messages"
+    );
+  }
+}
+
+export async function markUserMessageAsRead({
+  id,
+  userId,
+}: {
+  id: string;
+  userId: string;
+}) {
+  try {
+    // Verify the user is the recipient
+    const [existing] = await db
+      .select()
+      .from(userMessage)
+      .where(eq(userMessage.id, id));
+
+    if (!existing || existing.recipientId !== userId) {
+      throw new ChatSDKError("unauthorized:database", "Unauthorized");
+    }
+
+    return await db
+      .update(userMessage)
+      .set({ isRead: true, updatedAt: new Date() })
+      .where(eq(userMessage.id, id))
+      .returning();
+  } catch (_error) {
+    throw new ChatSDKError(
+      "bad_request:database",
+      "Failed to mark user message as read"
+    );
+  }
+}
+
+export async function getUnreadMessageCount({ userId }: { userId: string }) {
+  try {
+    const [result] = await db
+      .select({ count: count(userMessage.id) })
+      .from(userMessage)
+      .where(
+        and(eq(userMessage.recipientId, userId), eq(userMessage.isRead, false))
+      );
+
+    return result?.count ?? 0;
+  } catch (_error) {
+    throw new ChatSDKError(
+      "bad_request:database",
+      "Failed to get unread message count"
+    );
+  }
+}
+
+export async function deleteUserMessage({
+  id,
+  userId,
+}: {
+  id: string;
+  userId: string;
+}) {
+  try {
+    // Verify the user is the sender
+    const [existing] = await db
+      .select()
+      .from(userMessage)
+      .where(eq(userMessage.id, id));
+
+    if (!existing || existing.senderId !== userId) {
+      throw new ChatSDKError("unauthorized:database", "Unauthorized");
+    }
+
+    return await db
+      .delete(userMessage)
+      .where(eq(userMessage.id, id))
+      .returning();
+  } catch (_error) {
+    throw new ChatSDKError(
+      "bad_request:database",
+      "Failed to delete user message"
+    );
   }
 }
