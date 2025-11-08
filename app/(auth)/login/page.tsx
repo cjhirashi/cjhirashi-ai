@@ -39,7 +39,16 @@ export default function Page() {
     } else if (state.status === "success") {
       setIsSuccessful(true);
       updateSession();
-      router.refresh();
+
+      // Check for returnUrl in query params
+      const searchParams = new URLSearchParams(window.location.search);
+      const returnUrl = searchParams.get("returnUrl");
+
+      if (returnUrl) {
+        router.push(returnUrl);
+      } else {
+        router.push("/dashboard");
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.status]);

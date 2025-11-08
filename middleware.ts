@@ -5,14 +5,12 @@ import { guestRegex, isDevelopmentEnvironment } from "./lib/constants";
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  /*
-   * Playwright starts the dev server and requires a 200 status to
-   * begin the tests, so this ensures that the tests can start
-   */
+  // 1. Playwright health check
   if (pathname.startsWith("/ping")) {
     return new Response("pong", { status: 200 });
   }
 
+  // 2. Allow all /api/auth routes (login, register, session)
   if (pathname.startsWith("/api/auth")) {
     return NextResponse.next();
   }
@@ -23,37 +21,89 @@ export async function middleware(request: NextRequest) {
     secureCookie: !isDevelopmentEnvironment,
   });
 
-  if (!token) {
-    const redirectUrl = encodeURIComponent(request.url);
+  // 3. PUBLIC ROUTES: Allow without authentication
+  const publicRoutes = ["/"];
+  const authRoutes = ["/login", "/register"];
 
+  if (publicRoutes.includes(pathname) || authRoutes.includes(pathname)) {
+    // Already authenticated? Redirect away from auth pages
+    if (token && authRoutes.includes(pathname)) {
+      return NextResponse.redirect(new URL("/dashboard", request.url));
+    }
+
+    return NextResponse.next();
+  }
+
+  // 4. DASHBOARD ROUTES: Require registered user authentication
+  if (pathname.startsWith("/dashboard")) {
+    // No session? → Login with return URL
+    if (!token) {
+      const loginUrl = new URL("/login", request.url);
+      loginUrl.searchParams.set("returnUrl", pathname);
+      return NextResponse.redirect(loginUrl);
+    }
+
+    // Session exists but is guest? → Force registration
+    const isGuest = guestRegex.test(token?.email ?? "");
+    if (isGuest) {
+      const registerUrl = new URL("/register", request.url);
+      registerUrl.searchParams.set(
+        "message",
+        "Please register to access the dashboard"
+      );
+      return NextResponse.redirect(registerUrl);
+    }
+
+    // Registered user → Allow access
+    return NextResponse.next();
+  }
+
+  // 5. API ROUTES: Require authentication
+  if (pathname.startsWith("/api/")) {
+    if (!token) {
+      return NextResponse.json(
+        { error: "Authentication required" },
+        { status: 401 }
+      );
+    }
+
+    // Check if guest trying to access protected endpoints
+    const isGuest = guestRegex.test(token?.email ?? "");
+    const guestRestrictedEndpoints = ["/api/document", "/api/files/upload"];
+
+    if (
+      isGuest &&
+      guestRestrictedEndpoints.some((ep) => pathname.startsWith(ep))
+    ) {
+      return NextResponse.json(
+        { error: "This feature requires a registered account" },
+        { status: 403 }
+      );
+    }
+
+    return NextResponse.next();
+  }
+
+  // 6. LEGACY ROUTES: Handle backward compatibility
+  if (pathname.startsWith("/chat/")) {
+    const chatId = pathname.replace("/chat/", "");
     return NextResponse.redirect(
-      new URL(`/api/auth/guest?redirectUrl=${redirectUrl}`, request.url)
+      new URL(`/dashboard/chat/${chatId}`, request.url)
     );
   }
 
-  const isGuest = guestRegex.test(token?.email ?? "");
-
-  if (token && !isGuest && ["/login", "/register"].includes(pathname)) {
-    return NextResponse.redirect(new URL("/", request.url));
-  }
-
+  // 7. Default: Allow (for static assets, etc.)
   return NextResponse.next();
 }
 
 export const config = {
   matcher: [
     "/",
-    "/chat/:id",
+    "/dashboard/:path*",
+    "/chat/:path*", // Legacy route handling
     "/api/:path*",
     "/login",
     "/register",
-
-    /*
-     * Match all request paths except for the ones starting with:
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico, sitemap.xml, robots.txt (metadata files)
-     */
     "/((?!_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt).*)",
   ],
 };

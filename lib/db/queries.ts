@@ -10,6 +10,7 @@ import {
   gte,
   inArray,
   lt,
+  sql,
   type SQL,
 } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/postgres-js";
@@ -63,6 +64,11 @@ export async function createUser(email: string, password: string) {
   }
 }
 
+/**
+ * @deprecated Guest users are no longer created automatically.
+ * This function is kept for backward compatibility with existing data.
+ * Do not use in new code.
+ */
 export async function createGuestUser() {
   const email = `guest-${Date.now()}`;
   const password = generateHashedPassword(generateUUID());
@@ -589,5 +595,40 @@ export async function getStreamIdsByChatId({ chatId }: { chatId: string }) {
       "bad_request:database",
       "Failed to get stream ids by chat id"
     );
+  }
+}
+
+export async function getDocumentsByUserId({ userId }: { userId: string }) {
+  try {
+    return await db
+      .select()
+      .from(document)
+      .where(eq(document.userId, userId))
+      .orderBy(desc(document.createdAt));
+  } catch (_error) {
+    console.error("Failed to get documents by user ID", _error);
+    return [];
+  }
+}
+
+export async function getMessageCountByUserId({ userId }: { userId: string }) {
+  try {
+    const chats = await db
+      .select({ id: chat.id })
+      .from(chat)
+      .where(eq(chat.userId, userId));
+
+    if (chats.length === 0) return 0;
+
+    const chatIds = chats.map((c) => c.id);
+    const result = await db
+      .select({ count: sql<number>`count(*)` })
+      .from(message)
+      .where(inArray(message.chatId, chatIds));
+
+    return Number(result[0]?.count ?? 0);
+  } catch (_error) {
+    console.error("Failed to get message count by user ID", _error);
+    return 0;
   }
 }
