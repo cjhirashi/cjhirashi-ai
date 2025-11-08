@@ -611,7 +611,7 @@ export async function getDocumentsByUserId({ userId }: { userId: string }) {
   }
 }
 
-export async function getMessageCountByUserId({ userId }: { userId: string }) {
+export async function getTotalMessageCountByUserId({ userId }: { userId: string }) {
   try {
     const chats = await db
       .select({ id: chat.id })
@@ -628,7 +628,7 @@ export async function getMessageCountByUserId({ userId }: { userId: string }) {
 
     return Number(result[0]?.count ?? 0);
   } catch (_error) {
-    console.error("Failed to get message count by user ID", _error);
+    console.error("Failed to get total message count by user ID", _error);
     return 0;
   }
 }

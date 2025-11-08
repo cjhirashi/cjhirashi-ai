@@ -1,6 +1,6 @@
 import { auth } from "@/app/(auth)/auth";
 import { redirect } from "next/navigation";
-import { getChatsByUserId, getMessageCountByUserId } from "@/lib/db/queries";
+import { getChatsByUserId, getTotalMessageCountByUserId } from "@/lib/db/queries";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default async function StatsPage() {
@@ -12,7 +12,7 @@ export default async function StatsPage() {
 
   const [chats, messageCount] = await Promise.all([
     getChatsByUserId({ id: session.user.id }),
-    getMessageCountByUserId({ userId: session.user.id }),
+    getTotalMessageCountByUserId({ userId: session.user.id }),
   ]);
 
   const stats = [
