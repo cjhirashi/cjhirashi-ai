@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { ReactNode } from "react";
 
 export default function PublicLayout({
@@ -10,14 +11,16 @@ export default function PublicLayout({
       {/* Simple header - no sidebar */}
       <header className="border-b">
         <div className="container mx-auto flex h-16 items-center justify-between px-4">
-          <h1 className="text-xl font-bold">AI Chatbot</h1>
+          <Link href="/">
+            <h1 className="cursor-pointer text-xl font-bold">AI Chatbot</h1>
+          </Link>
           <nav className="flex gap-4">
-            <a href="/login" className="text-sm hover:underline">
+            <Link href="/login" className="text-sm hover:underline">
               Login
-            </a>
-            <a href="/register" className="text-sm hover:underline">
+            </Link>
+            <Link href="/register" className="text-sm hover:underline">
               Register
-            </a>
+            </Link>
           </nav>
         </div>
       </header>
